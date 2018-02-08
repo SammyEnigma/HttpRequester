@@ -1,6 +1,13 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>main.qml</file>
+        <file>QML/main.qml</file>
+        <file>QML/MainPage.qml</file>
+        <file>QML/RecentRequestsView.qml</file>
+        <file>QML/Tools/TopBar.qml</file>
+        <file>QML/CreatePage.qml</file>
+        <file>QML/RequstInfoView.qml</file>
+        <file>QML/ProxyInfoView.qml</file>
+        <file>QML/Tools/InsertField.qml</file>
+        <file>QML/ResultPage.qml</file>
     </qresource>
 </RCC>
