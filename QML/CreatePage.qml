@@ -30,6 +30,10 @@ Page {
 			TabButton {
 				text: "Proxy"
 			}
+
+			TabButton {
+				text: "General"
+			}
 		}
 
 		Rectangle {
@@ -46,6 +50,7 @@ Page {
 
 			RequstInfoView { }
 			ProxyInfoView { }
+			GeneralInfoView { }
 		}
 	}
 }

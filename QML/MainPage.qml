@@ -15,7 +15,7 @@ Page {
 		ToolButton {
 			text: "+"
 			parent: topBar.row
-			font.pointSize: page.font.pointSize + 5
+			font.pointSize: iconFont
 			onClicked: stackView.push(createPage)
 		}
 	}

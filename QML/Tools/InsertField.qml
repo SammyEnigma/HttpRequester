@@ -13,6 +13,7 @@ Control {
 	property string text
 	property string placeholder
 	property alias value: field.text
+	property alias horizontalAlignment: field.horizontalAlignment
 
 	contentItem: RowLayout {
 		spacing: 10

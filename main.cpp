@@ -1,4 +1,5 @@
 #include <QGuiApplication>
+#include <QNetworkProxy>
 #include <QQmlApplicationEngine>
 #include <QtQuickControls2/QQuickStyle>
 

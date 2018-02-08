@@ -8,6 +8,11 @@ ApplicationWindow {
 	height: 480
 	title: "REST Requester"
 
+	property real smallFont: font.pointSize
+	property real mediumFont: font.pointSize + 2
+	property real largeFont: font.pointSize + 4
+	property real iconFont: font.pointSize + 10
+
 	Material.theme: Material.Dark
 	Material.accent: Material.Red
 	Material.primary: Material.Red

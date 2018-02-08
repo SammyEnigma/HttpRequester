@@ -6,6 +6,8 @@ import "Tools"
 
 Page {
 	id: page
+	padding: 12
+	rightPadding: 18
 	background: Item { }
 
 	ButtonGroup {
@@ -13,39 +15,101 @@ Page {
 	}
 
 	contentItem: ColumnLayout {
-		RowLayout {
+		ColumnLayout {
 			Layout.fillHeight: false
 
-			RadioButton {
-				id: radio1
-				text: "Url"
+			Label {
+				text: "Address"
+				font.pointSize: mediumFont
 			}
 
-			InsertField {
-				text: "Url"
-				Layout.fillWidth: true
-				placeholder: "http://example.com"
+			RowLayout {
+				Layout.leftMargin: 12
+				Layout.fillHeight: false
+
+				RadioButton {
+					id: radio1
+					text: "Url"
+					implicitWidth: 120
+					checked: true
+				}
+
+				InsertField {
+					text: "Url"
+					placeholder: "http://example.com"
+
+					Layout.fillWidth: true
+					enabled: radio1.checked
+				}
+			}
+
+			RowLayout {
+				Layout.leftMargin: 12
+				Layout.fillHeight: false
+
+				RadioButton {
+					id: radio2
+					text: "IP/Port"
+					implicitWidth: 120
+				}
+
+				InsertField {
+					text: "IP"
+					placeholder: "255.255.255.255"
+
+					Layout.rightMargin: 18
+					Layout.fillWidth: true
+					enabled: radio2.checked
+				}
+
+				InsertField {
+					text: "Port"
+					placeholder: "8080"
+
+					Layout.fillWidth: true
+				}
 			}
 		}
 
-		RowLayout {
+		ColumnLayout {
 			Layout.fillHeight: false
 
-			RadioButton {
-				id: radio2
-				text: "IP/Port"
+			CheckBox {
+				id: checkbox1
+				text: "Post Data"
+				leftPadding: 0
+				font.pointSize: mediumFont
 			}
 
-			InsertField {
-				text: "Ip"
+			Frame {
+				enabled: checkbox1.checked
+				padding: 0
+				Layout.leftMargin: 12
 				Layout.fillWidth: true
-				placeholder: "255.255.255.255"
-			}
 
-			InsertField {
-				text: "Port"
-				Layout.fillWidth: true
-				placeholder: "8080"
+				contentItem: ListView {
+					model: 5
+					clip: true
+					implicitHeight: 40
+					orientation: Qt.Horizontal
+
+					delegate: Label {
+						id: label
+						height: 40
+						padding: 6
+						text: "\"name\" : \"shahriar\" "
+						verticalAlignment: Text.AlignVCenter
+
+						Rectangle {
+							width: 1
+							parent: label
+							color: label.linkColor
+							height: parent.height - 2
+							anchors.right: parent.right
+							anchors.verticalCenter: parent.verticalCenter
+						}
+					}
+				}
 			}
 		}
 

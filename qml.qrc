@@ -9,5 +9,6 @@
         <file>QML/ProxyInfoView.qml</file>
         <file>QML/Tools/InsertField.qml</file>
         <file>QML/ResultPage.qml</file>
+        <file>QML/GeneralInfoView.qml</file>
     </qresource>
 </RCC>

@@ -12,9 +12,9 @@ ToolBar {
 		id: label
 		text: control.title
 		anchors.fill: parent
+		font.pointSize: largeFont
 		verticalAlignment: Text.AlignVCenter
 		horizontalAlignment: Text.AlignHCenter
-		font.pointSize: control.font.pointSize + 5
 	}
 
 	RowLayout {
