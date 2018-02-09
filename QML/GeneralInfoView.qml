@@ -11,18 +11,41 @@ Page {
 	background: Item { }
 
 	contentItem: ColumnLayout {
-		InsertField {
-			implicitWidth: 160
-			value: "1"
-			text: "Requests Count"
-			horizontalAlignment: Text.AlignHCenter
+		RowLayout {
+			spacing: 18
+			Layout.fillHeight: false
+
+			InsertField {
+				text: "Name"
+				placeholder: "Optional"
+				Layout.fillWidth: true
+				value: RequestHolder.requestName
+				onValueChanged: RequestHolder.requestName = value
+			}
+
+			InsertField {
+				text: "Description"
+				placeholder: "Optional"
+				Layout.fillWidth: true
+				value: RequestHolder.requestDescription
+				onValueChanged: RequestHolder.requestDescription = value
+			}
 		}
 
 		InsertField {
 			implicitWidth: 160
-			value: "30"
+			text: "Requests Count"
+			value: RequestHolder.requestCount
+			horizontalAlignment: Text.AlignHCenter
+			onValueChanged: RequestHolder.requestCount = value
+		}
+
+		InsertField {
+			implicitWidth: 160
 			text: "Request Timeout"
 			horizontalAlignment: Text.AlignHCenter
+			value: RequestHolder.requestTimeout
+			onValueChanged: RequestHolder.requestTimeout = value
 		}
 
 		Item {

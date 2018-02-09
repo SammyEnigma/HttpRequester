@@ -24,15 +24,15 @@ Page {
 			currentIndex: swipeView.currentIndex
 
 			TabButton {
+				text: "General"
+			}
+
+			TabButton {
 				text: "Request"
 			}
 
 			TabButton {
 				text: "Proxy"
-			}
-
-			TabButton {
-				text: "General"
 			}
 		}
 
@@ -48,9 +48,9 @@ Page {
 			Layout.fillHeight: true
 			currentIndex: tabBar.currentIndex
 
+			GeneralInfoView { }
 			RequstInfoView { }
 			ProxyInfoView { }
-			GeneralInfoView { }
 		}
 	}
 }

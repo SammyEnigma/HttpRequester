@@ -22,7 +22,10 @@ ApplicationWindow {
 		var name = stackView.currentItem.objectName
 
 		if (name == "Create")
+		{
 			stackView.pop()
+			RequestHolder.reset()
+		}
 		else
 			close.accepted = true
 	}

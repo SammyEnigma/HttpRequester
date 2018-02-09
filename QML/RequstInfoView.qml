@@ -31,7 +31,8 @@ Page {
 					id: radio1
 					text: "Url"
 					implicitWidth: 120
-					checked: true
+					checked: RequestHolder.addressType == false
+					onCheckedChanged: RequestHolder.addressType = false
 				}
 
 				InsertField {
@@ -40,6 +41,8 @@ Page {
 
 					Layout.fillWidth: true
 					enabled: radio1.checked
+					value: RequestHolder.addressUrl
+					onValueChanged: RequestHolder.addressUrl = value
 				}
 			}
 
@@ -51,6 +54,8 @@ Page {
 					id: radio2
 					text: "IP/Port"
 					implicitWidth: 120
+					checked: RequestHolder.addressType == true
+					onCheckedChanged: RequestHolder.addressType = true
 				}
 
 				InsertField {
@@ -60,13 +65,17 @@ Page {
 					Layout.rightMargin: 18
 					Layout.fillWidth: true
 					enabled: radio2.checked
+					value: RequestHolder.addressIp
+					onValueChanged: RequestHolder.addressIp = value
 				}
 
 				InsertField {
 					text: "Port"
 					placeholder: "8080"
-
 					Layout.fillWidth: true
+					enabled: radio2.checked
+					value: RequestHolder.addressPort
+					onValueChanged: RequestHolder.addressPort = value
 				}
 			}
 		}
@@ -79,6 +88,8 @@ Page {
 				text: "Post Data"
 				leftPadding: 0
 				font.pointSize: mediumFont
+				checked: RequestHolder.hasPostData
+				onCheckedChanged: RequestHolder = checked
 			}
 
 			Frame {

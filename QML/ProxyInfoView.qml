@@ -12,6 +12,25 @@ Page {
 
 	ButtonGroup {
 		buttons: row.children
+		property int currentIndex: RequestHolder.proxyType
+
+		onCheckedButtonChanged: {
+			if (checkedButton == radio1)
+				currentIndex = 0
+			else if (checkedButton == radio2)
+				currentIndex = 1
+			else if (checkedButton == radio3)
+				currentIndex = 2
+		}
+
+		onCurrentIndexChanged: {
+			if (currentIndex == 0)
+				radio1.checked = true
+			else if (currentIndex == 1)
+				radio2.checked = true
+			else if (currentIndex == 2)
+				radio3.checked = true
+		}
 	}
 
 	contentItem: ColumnLayout {
@@ -29,15 +48,18 @@ Page {
 				Layout.fillHeight: false
 
 				RadioButton {
+					id: radio1
 					text: "No Proxy"
 					checked: true
 				}
 
 				RadioButton {
+					id: radio2
 					text: "Http Proxy"
 				}
 
 				RadioButton {
+					id: radio3
 					text: "Socks5 Proxy"
 				}
 			}
@@ -63,12 +85,16 @@ Page {
 						text: "Host"
 						Layout.fillWidth: true
 						placeholder: "255.255.255.255"
+						value: RequestHolder.proxyHost
+						onValueChanged: RequestHolder.proxyHost = value
 					}
 
 					InsertField {
 						text: "Port"
 						placeholder: "8080"
 						Layout.fillWidth: true
+						value: RequestHolder.proxyPort
+						onValueChanged: RequestHolder.proxyPort = value
 					}
 				}
 
@@ -89,6 +115,8 @@ Page {
 						placeholder: "someone"
 						Layout.fillWidth: true
 						enabled: checkbox1.checked
+						value: RequestHolder.proxyUsername
+						onValueChanged: RequestHolder.proxyUsername = value
 					}
 
 					InsertField {
@@ -96,6 +124,8 @@ Page {
 						placeholder: "8080"
 						Layout.fillWidth: true
 						enabled: checkbox1.checked
+						value: RequestHolder.proxyPassword
+						onValueChanged: RequestHolder.proxyPassword = value
 					}
 				}
 			}
