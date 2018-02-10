@@ -21,7 +21,7 @@ ApplicationWindow {
 		close.accepted = false
 		var name = stackView.currentItem.objectName
 
-		if (name == "Create")
+		if (name == "Create" || name == "Result")
 		{
 			stackView.pop()
 			RequestHolder.reset()
@@ -43,6 +43,11 @@ ApplicationWindow {
 		Component {
 			id: createPage
 			CreatePage { }
+		}
+
+		Component {
+			id: resultPage
+			ResultPage { }
 		}
 	}
 }

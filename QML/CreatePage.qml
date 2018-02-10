@@ -11,7 +11,23 @@ Page {
 	background: Item { }
 
 	header: TopBar {
+		id: topBar
 		title: "Create Request"
+
+		ToolButton {
+			text: "➞"
+			parent: topBar.row
+			font.pointSize: iconFont
+			onClicked: stackView.replace(resultPage)
+		}
+
+		ToolButton {
+			text: "➞"
+			rotation: 180
+			parent: topBar.row
+			font.pointSize: iconFont
+			onClicked: stackView.pop()
+		}
 	}
 
 	ColumnLayout {

@@ -4,6 +4,7 @@ RequestHolder *RequestSaver::Holder = nullptr;
 
 RequestSaver::RequestSaver(QObject *parent) : QObject(parent)
 {
+	m_model = new QmlModel(this);
 	m_model->addRoles(
 		{Add(IDRole), Add(TitleRole), Add(DescRole), Add(TimeRole)});
 

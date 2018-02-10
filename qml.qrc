@@ -10,5 +10,9 @@
         <file>QML/Tools/InsertField.qml</file>
         <file>QML/ResultPage.qml</file>
         <file>QML/GeneralInfoView.qml</file>
+        <file>QML/Tools/RecentListDelegate.qml</file>
+        <file>QML/ResultStatusView.qml</file>
+        <file>QML/ResultInfoListVliew.qml</file>
+        <file>QML/ResultInfoView.qml</file>
     </qresource>
 </RCC>
