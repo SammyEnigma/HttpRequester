@@ -5,19 +5,25 @@ import QtQuick.Layouts 1.3
 ItemDelegate {
 	id: control
 
-	property string name
-	property string time
+	property real elapsed
+	property int requestIndex
+	property bool done
+
 
 	contentItem: RowLayout {
 		id: row
 
 		Label {
-			text: name
 			Layout.fillWidth: true
+			text: "Request " + requestIndex
 		}
 
 		Label {
-			text: time
+			text: elapsed
+		}
+
+		Label {
+			text: done
 		}
 	}
 }

@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 
 	R->setContextProperty("RequestSaverModel", Saver.model());
 	R->setContextProperty("RequestHolderPostModel", Holder.postModel());
+	R->setContextProperty("RequestHandlerModel", Handler.model());
 
 	engine.load(QUrl(QStringLiteral("qrc:/QML/main.qml")));
 	if (engine.rootObjects().isEmpty()) return -1;

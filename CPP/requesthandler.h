@@ -62,6 +62,8 @@ public:
 	QString singleInfo() const;
 	bool singleFinished() const;
 
+	QmlModel *model() const;
+
 public slots:
 	void begin();
 

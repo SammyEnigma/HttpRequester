@@ -21,6 +21,7 @@ Item {
 
 		ProgressBar {
 			from: 0
+			indeterminate: to == 1 && RequestHandler.state == 1
 			Layout.fillWidth: true
 			to: RequestHandler.requestsCount
 			value: RequestHandler.currentRequest + 1

@@ -17,6 +17,8 @@ RequestHandler::RequestHandler(QObject *parent) : QObject(parent)
 	setSingleFinished(false);
 }
 
+QmlModel *RequestHandler::model() const { return m_model; }
+
 void RequestHandler::setupRequester()
 {
 	setupRequesterUrl();

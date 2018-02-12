@@ -15,5 +15,6 @@
         <file>QML/ResultInfoListVliew.qml</file>
         <file>QML/ResultInfoView.qml</file>
         <file>QML/SplashPage.qml</file>
+        <file>QML/Tools/ResultListDelegate.qml</file>
     </qresource>
 </RCC>
