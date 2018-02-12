@@ -111,6 +111,14 @@ void RequestHolder::setRequestDescription(QString requestDescription)
 	emit requestDescriptionChanged(m_requestDescription);
 }
 
+void RequestHolder::setProxyHasUser(bool proxyHasUser)
+{
+	if (m_proxyHasUser == proxyHasUser) return;
+
+	m_proxyHasUser = proxyHasUser;
+	emit proxyHasUserChanged(m_proxyHasUser);
+}
+
 void RequestHolder::setRequestName(QString requestName)
 {
 	if (m_requestName == requestName) return;
@@ -135,6 +143,7 @@ void RequestHolder::reset()
 	setRequestTimeout(30);
 	setRequestName("");
 	setRequestDescription("");
+	setProxyHasUser(false);
 }
 
 QString RequestHolder::requestDescription() const
@@ -142,6 +151,7 @@ QString RequestHolder::requestDescription() const
 	return m_requestDescription;
 }
 
+bool RequestHolder::proxyHasUser() const { return m_proxyHasUser; }
 QmlModel *RequestHolder::postModel() const { return m_postModel; }
 bool RequestHolder::addressType() const { return m_addressType; }
 QString RequestHolder::addressUrl() const { return m_addressUrl; }

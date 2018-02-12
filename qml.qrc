@@ -14,5 +14,6 @@
         <file>QML/ResultStatusView.qml</file>
         <file>QML/ResultInfoListVliew.qml</file>
         <file>QML/ResultInfoView.qml</file>
+        <file>QML/SplashPage.qml</file>
     </qresource>
 </RCC>

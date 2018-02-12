@@ -10,15 +10,20 @@ Item {
 		anchors.centerIn: parent
 
 		Label {
-			text: "Please Wait(4/5)"
 			Layout.fillWidth: true
 			font.pointSize: largeFont
 			horizontalAlignment: Text.AlignHCenter
+
+			text: RequestHandler.state == 1 ? "Please Wait":"Done!" +
+				  " (" + (RequestHandler.currentRequest + 1) +
+				  "/" + RequestHandler.requestsCount + ")"
 		}
 
 		ProgressBar {
-			value: .8
+			from: 0
 			Layout.fillWidth: true
+			to: RequestHandler.requestsCount
+			value: RequestHandler.currentRequest + 1
 		}
 	}
 }

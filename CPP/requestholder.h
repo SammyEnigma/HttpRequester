@@ -45,6 +45,9 @@ class RequestHolder : public QObject
 	Q_PROPERTY(QString proxyPassword READ proxyPassword WRITE setProxyPassword
 				   NOTIFY proxyPasswordChanged)
 
+	Q_PROPERTY(bool proxyHasUser READ proxyHasUser WRITE setProxyHasUser NOTIFY
+				   proxyHasUserChanged)
+
 	Q_PROPERTY(int requestCount READ requestCount WRITE setRequestCount NOTIFY
 				   requestCountChanged)
 
@@ -74,6 +77,8 @@ class RequestHolder : public QObject
 	QString m_requestName;
 	QString m_requestDescription;
 
+	bool m_proxyHasUser;
+
 public:
 	explicit RequestHolder(QObject *parent = nullptr);
 
@@ -93,6 +98,7 @@ public:
 	int requestTimeout() const;
 	QString requestName() const;
 	QString requestDescription() const;
+	bool proxyHasUser() const;
 
 public slots:
 	void reset();
@@ -111,6 +117,7 @@ public slots:
 	void setRequestTimeout(int requestTimeout);
 	void setRequestName(QString requestName);
 	void setRequestDescription(QString requestDescription);
+	void setProxyHasUser(bool proxyHasUser);
 
 signals:
 	void addressTypeChanged(bool addressType);
@@ -127,6 +134,7 @@ signals:
 	void requestTimeoutChanged(int requestTimeout);
 	void requestNameChanged(QString requestName);
 	void requestDescriptionChanged(QString requestDescription);
+	void proxyHasUserChanged(bool proxyHasUser);
 };
 
 #endif  // REQUESTHOLDER_H

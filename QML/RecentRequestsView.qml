@@ -1,6 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
+import QtQuick.Layouts 1.3
 
 import "Tools"
 
@@ -11,26 +12,47 @@ Item {
 		id: view
 		anchors.fill: parent
 		model: RequestSaverModel
+		ScrollBar.vertical: ScrollBar { }
 
 		delegate: RecentListDelegate {
 			id: del
-			name: nameRole
 			time: timeRole
+			width: parent.width
+			name: titleRole ? titleRole:"Unnamed"
+
+			onClicked: {
+				RequestSaver.loadRequest(idRole)
+				stackView.push(createPage)
+			}
 
 			Rectangle {
 				height: 1
 				parent: del
 				width: parent.width*.9
 				color: Material.accent
+				anchors.bottom: parent.bottom
+				visible: index != view.count
 				anchors.horizontalCenter: parent.horizontalCenter
 			}
 		}
 	}
 
-	Label {
+	ColumnLayout {
 		visible: !view.count
-		text: "No Requests Yet"
 		anchors.centerIn: parent
-		font.pointSize: mediumFont
+
+		Label {
+			text: "No Requests Yet"
+			font.pointSize: mediumFont
+			Layout.fillWidth: true
+			horizontalAlignment: Text.AlignHCenter
+		}
+
+		Button {
+			text: "New Request"
+			Layout.fillWidth: true
+			onClicked: stackView.push(createPage)
+			Material.background: Material.primary
+		}
 	}
 }

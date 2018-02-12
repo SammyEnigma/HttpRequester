@@ -10,6 +10,8 @@ Page {
 	objectName: "Create"
 	background: Item { }
 
+	property bool saved: false
+
 	header: TopBar {
 		id: topBar
 		title: "Create Request"
@@ -18,7 +20,31 @@ Page {
 			text: "➞"
 			parent: topBar.row
 			font.pointSize: iconFont
-			onClicked: stackView.replace(resultPage)
+
+			onClicked: {
+				if (!saved) {
+					saved = true;
+					RequestSaver.saveRequest()
+				}
+
+				RequestHandler.begin()
+				stackView.replace(resultPage)
+			}
+		}
+
+		ToolButton {
+			text: "➞"
+			rotation: 90
+			parent: topBar.row
+			font.pointSize: iconFont
+
+			onClicked: {
+				if (saved)
+					return;
+
+				saved = true;
+				RequestSaver.saveRequest()
+			}
 		}
 
 		ToolButton {
@@ -40,11 +66,11 @@ Page {
 			currentIndex: swipeView.currentIndex
 
 			TabButton {
-				text: "General"
+				text: "Request"
 			}
 
 			TabButton {
-				text: "Request"
+				text: "General"
 			}
 
 			TabButton {
@@ -64,8 +90,8 @@ Page {
 			Layout.fillHeight: true
 			currentIndex: tabBar.currentIndex
 
-			GeneralInfoView { }
 			RequstInfoView { }
+			GeneralInfoView { }
 			ProxyInfoView { }
 		}
 	}

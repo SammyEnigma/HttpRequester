@@ -12,9 +12,10 @@ ApplicationWindow {
 	property real mediumFont: font.pointSize + 2
 	property real largeFont: font.pointSize + 4
 	property real iconFont: font.pointSize + 10
+	property real splashFont: font.pointSize + 15
 
-	Material.theme: Material.Dark
-	Material.accent: Material.Red
+//	Material.theme: Material.Dark
+	Material.accent: Material.primary
 	Material.primary: Material.Red
 
 	onClosing: {
@@ -33,7 +34,12 @@ ApplicationWindow {
 	StackView {
 		id: stackView
 		anchors.fill: parent
-		initialItem: mainPage
+		initialItem: splashPage
+
+		Component {
+			id: splashPage
+			SplashPage { }
+		}
 
 		Component {
 			id: mainPage

@@ -15,7 +15,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp \
     CPP/requesthandler.cpp \
     CPP/requestholder.cpp \
-    CPP/requestsaver.cpp
+    CPP/requestsaver.cpp \
+    CPP/requester.cpp
 
 RESOURCES += qml.qrc
 
@@ -34,7 +35,8 @@ HEADERS += \
     CPP/model.h \
     CPP/requesthandler.h \
     CPP/requestholder.h \
-    CPP/requestsaver.h
+    CPP/requestsaver.h \
+    CPP/requester.h
 
 DISTFILES +=
 

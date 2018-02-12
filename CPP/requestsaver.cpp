@@ -30,13 +30,24 @@ void RequestSaver::saveRequest()
 												 : Holder->addressIp() + ":" +
 													   Holder->addressPort());
 
+	auto epoch = QDateTime::currentSecsSinceEpoch();
+
 	m_query->prepare("INSERT INTO main VALUES(?, ?, ?, ?, ?);");
 	m_query->bindValue(0, name);
 	m_query->bindValue(1, rid);
 	m_query->bindValue(2, gid);
 	m_query->bindValue(3, prid);
-	m_query->bindValue(4, QDateTime::currentSecsSinceEpoch());
+	m_query->bindValue(4, epoch);
 	qDebug() << m_query->exec();
+
+	auto id = m_query->lastInsertId().toInt();
+	auto time = QDateTime::fromSecsSinceEpoch(epoch).toString();
+
+	auto *item = new QStandardItem;
+	item->setData(id, IDRole);
+	item->setData(name, NameRole);
+	item->setData(time, TimeRole);
+	m_model->insertRow(0, item);
 }
 
 void RequestSaver::loadRequest(int id)
@@ -86,8 +97,8 @@ void RequestSaver::createTables()
 
 	x = m_query->exec(
 		"CREATE TABLE IF NOT EXISTS proxy("
-		"type INTEGER, host STRING, port STRING,"
-		" user STRING, pass STRING);");
+		"type INTEGER, host STRING, port STRING, "
+		"hasuser INTEGER, user STRING, pass STRING);");
 	if (!x) qDebug() << "Couldn't Create Proxy Table;";
 
 	x = m_query->exec(
@@ -129,12 +140,13 @@ int RequestSaver::saveGeneralTable()
 
 int RequestSaver::saveProxyTable()
 {
-	m_query->prepare("INSERT INTO proxy VALUES(?, ?, ?, ?, ?);");
+	m_query->prepare("INSERT INTO proxy VALUES(?, ?, ?, ?, ?, ?);");
 	m_query->bindValue(0, Holder->proxyType());
 	m_query->bindValue(1, Holder->proxyHost());
 	m_query->bindValue(2, Holder->proxyPort());
-	m_query->bindValue(3, Holder->proxyUsername());
-	m_query->bindValue(4, Holder->proxyPassword());
+	m_query->bindValue(3, Holder->proxyHasUser());
+	m_query->bindValue(4, Holder->proxyUsername());
+	m_query->bindValue(5, Holder->proxyPassword());
 	qDebug() << m_query->exec();
 
 	return m_query->lastInsertId().toInt();
@@ -222,13 +234,14 @@ void RequestSaver::loadProxyTable(int pid)
 	Holder->setProxyType(R.value("type").toInt());
 	Holder->setProxyHost(R.value("host").toString());
 	Holder->setProxyPort(R.value("port").toString());
+	Holder->setProxyHasUser(R.value("hasuser").toInt());
 	Holder->setProxyUsername(R.value("user").toString());
 	Holder->setProxyPassword(R.value("pass").toString());
 }
 
 void RequestSaver::loadPostTable(int rid)
 {
-	m_query->prepare("SELECT * FROM proxy WHERE rid=? ORDER BY rowid ASC;");
+	m_query->prepare("SELECT * FROM post WHERE rid=? ORDER BY rowid ASC;");
 	m_query->bindValue(0, rid);
 	qDebug() << m_query->exec();
 
@@ -252,16 +265,18 @@ void RequestSaver::fillModel()
 	m_model->clear();
 
 	qDebug() << m_query->exec(
-		"SELECT rowid,name,time FROM main ORDER BY rowid ASC Limit 100;");
+		"SELECT rowid,name,time FROM main ORDER BY rowid DESC Limit 100;");
 
 	while (m_query->next())
 	{
 		auto R = m_query->record();
 		auto *item = new QStandardItem;
+		auto time = QDateTime::fromSecsSinceEpoch(R.value("time").toLongLong())
+						.toString();
 
 		item->setData(R.value("rowid"), IDRole);
 		item->setData(R.value("name"), TitleRole);
-		item->setData(R.value("time"), TimeRole);
+		item->setData(time, TimeRole);
 
 		m_model->appendRow(item);
 	}

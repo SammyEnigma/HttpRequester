@@ -11,7 +11,16 @@ Page {
 	background: Item { }
 
 	header: TopBar {
+		id: topBar
 		title: "Results"
+
+		ToolButton {
+			text: "➞"
+			rotation: 180
+			parent: topBar.row
+			font.pointSize: iconFont
+			onClicked: stackView.pop()
+		}
 	}
 
 	ColumnLayout {

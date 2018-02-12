@@ -103,6 +103,8 @@ Page {
 					leftPadding: 0
 					bottomPadding: 0
 					text: "Has Usernames"
+					checked: RequestHolder.proxyHasUser
+					onCheckedChanged: RequestHolder.proxyHasUser = checked
 				}
 
 				RowLayout {
