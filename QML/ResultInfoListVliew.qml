@@ -7,6 +7,7 @@ import "Tools"
 
 Page {
 	id: page
+	background: Item { }
 
 	property int index: 0
 	property string info: RequestHandler.singleInfo

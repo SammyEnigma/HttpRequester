@@ -13,6 +13,7 @@ ItemDelegate {
 
 		Label {
 			text: name
+			elide: Text.ElideRight
 			Layout.fillWidth: true
 		}
 

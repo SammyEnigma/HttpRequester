@@ -6,6 +6,8 @@ import QtQuick.Layouts 1.3
 import "Tools"
 
 Page {
+	background: Item { }
+
 	header: ResultListDelegate {
 		id: del
 		done: page.done
@@ -15,10 +17,9 @@ Page {
 		Rectangle {
 			height: 1
 			parent: del
-			width: parent.width*.9
+			width: parent.width
 			color: Material.accent
 			anchors.bottom: parent.bottom
-			anchors.horizontalCenter: parent.horizontalCenter
 		}
 	}
 

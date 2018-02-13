@@ -19,6 +19,7 @@ ToolBar {
 
 	RowLayout {
 		id: row
+		spacing: 0
 		anchors.right: parent.right
 		anchors.verticalCenter: parent.verticalCenter
 	}

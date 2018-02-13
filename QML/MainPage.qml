@@ -13,6 +13,39 @@ Page {
 		title: "REST Requester"
 
 		ToolButton {
+			id: menuButton
+			text: "⋮"
+			parent: topBar.row
+			font.pointSize: iconFont
+			onClicked: menu.open()
+
+			Menu {
+				id: menu
+				dim: false
+				modal: true
+				y: parent.height/2
+				x: -width+parent.width/2
+				closePolicy: Popup.CloseOnPressOutside | Popup.CloseOnEscape
+
+
+				MenuItem {
+					text: "About"
+					onClicked: stackView.push(aboutPage)
+				}
+
+				MenuItem {
+					text: "Settings"
+					onClicked: stackView.push(themePage)
+				}
+
+				MenuItem {
+					text: "Exit"
+					onClicked: Qt.quit()
+				}
+			}
+		}
+
+		ToolButton {
 			text: "+"
 			parent: topBar.row
 			font.pointSize: iconFont
@@ -23,4 +56,5 @@ Page {
 	RecentRequestsView {
 		anchors.fill: parent
 	}
+
 }

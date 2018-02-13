@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.0
 
 Page {
 	id: page
+	objectName: "Splash"
 
 	background: Rectangle {
 		color: Material.background
