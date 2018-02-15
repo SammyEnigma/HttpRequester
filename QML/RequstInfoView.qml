@@ -32,12 +32,16 @@ Page {
 					text: "Url"
 					implicitWidth: 120
 					checked: RequestHolder.addressType == false
-					onCheckedChanged: RequestHolder.addressType = false
+					onCheckedChanged: RequestHolder.addressType = !checked
 				}
 
 				InsertField {
 					text: "Url"
 					placeholder: "http://example.com"
+
+					validator: RegExpValidator {
+						regExp: /\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d/
+					}
 
 					Layout.fillWidth: true
 					enabled: radio1.checked
@@ -55,12 +59,16 @@ Page {
 					text: "IP/Port"
 					implicitWidth: 120
 					checked: RequestHolder.addressType == true
-					onCheckedChanged: RequestHolder.addressType = true
+					onCheckedChanged: RequestHolder.addressType = checked
 				}
 
 				InsertField {
 					text: "IP"
 					placeholder: "255.255.255.255"
+
+					validator: RegExpValidator {
+						regExp: /\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d/
+					}
 
 					Layout.rightMargin: 18
 					Layout.fillWidth: true
@@ -72,6 +80,12 @@ Page {
 				InsertField {
 					text: "Port"
 					placeholder: "8080"
+
+					validator: IntValidator {
+						top: 65535
+						bottom: 0
+					}
+
 					Layout.fillWidth: true
 					enabled: radio2.checked
 					value: RequestHolder.addressPort

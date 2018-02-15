@@ -87,6 +87,10 @@ Page {
 						placeholder: "255.255.255.255"
 						value: RequestHolder.proxyHost
 						onValueChanged: RequestHolder.proxyHost = value
+
+						validator: RegExpValidator {
+							regExp: /\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d/
+						}
 					}
 
 					InsertField {
@@ -95,6 +99,11 @@ Page {
 						Layout.fillWidth: true
 						value: RequestHolder.proxyPort
 						onValueChanged: RequestHolder.proxyPort = value
+
+						validator: IntValidator {
+							top: 65535
+							bottom: 0
+						}
 					}
 				}
 
@@ -123,7 +132,7 @@ Page {
 
 					InsertField {
 						text: "Password"
-						placeholder: "8080"
+						placeholder: "something"
 						Layout.fillWidth: true
 						enabled: checkbox1.checked
 						value: RequestHolder.proxyPassword

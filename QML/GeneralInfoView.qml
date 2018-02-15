@@ -38,6 +38,10 @@ Page {
 			value: RequestHolder.requestCount
 			horizontalAlignment: Text.AlignHCenter
 			onValueChanged: RequestHolder.requestCount = value
+
+			validator: IntValidator {
+				bottom: 1
+			}
 		}
 
 		InsertField {
@@ -46,6 +50,11 @@ Page {
 			horizontalAlignment: Text.AlignHCenter
 			value: RequestHolder.requestTimeout
 			onValueChanged: RequestHolder.requestTimeout = value
+
+			validator: IntValidator {
+				top: 300
+				bottom: 5
+			}
 		}
 
 		Item {

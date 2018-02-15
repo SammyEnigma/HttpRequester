@@ -27,15 +27,14 @@ Page {
 				x: -width+parent.width/2
 				closePolicy: Popup.CloseOnPressOutside | Popup.CloseOnEscape
 
+				MenuItem {
+					text: "Settings"
+					onClicked: stackView.push(themePage)
+				}
 
 				MenuItem {
 					text: "About"
 					onClicked: stackView.push(aboutPage)
-				}
-
-				MenuItem {
-					text: "Settings"
-					onClicked: stackView.push(themePage)
 				}
 
 				MenuItem {

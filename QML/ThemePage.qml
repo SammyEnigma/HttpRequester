@@ -13,6 +13,14 @@ Page {
 	header: TopBar {
 		id: topBar
 		title: "Settings"
+
+		ToolButton {
+			text: "➞"
+			rotation: 180
+			parent: topBar.row
+			font.pointSize: iconFont
+			onClicked: stackView.pop()
+		}
 	}
 
 	ColumnLayout {

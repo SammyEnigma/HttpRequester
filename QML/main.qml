@@ -20,11 +20,11 @@ ApplicationWindow {
 	property real iconFont: font.pointSize + 10
 	property real splashFont: font.pointSize + 15
 
-//	Settings {
-//		property alias darkTheme: w.windowDarkTheme
-//		property alias showSplash: w.windowShowSplash
-//		property alias themeColor: w.windowThemeColor
-//	}
+	Settings {
+		property alias darkTheme: w.windowDarkTheme
+		property alias showSplash: w.windowShowSplash
+		property alias themeColor: w.windowThemeColor
+	}
 
 	property bool windowDarkTheme: true
 	property bool windowShowSplash: true
