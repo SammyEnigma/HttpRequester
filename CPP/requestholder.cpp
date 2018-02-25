@@ -146,6 +146,19 @@ void RequestHolder::reset()
 	setProxyHasUser(false);
 }
 
+void RequestHolder::removePostParameter(int index)
+{
+	m_postModel->removeRow(index);
+}
+
+void RequestHolder::addPostParameter(const QString &key, const QString &value)
+{
+	QStandardItem *item = new QStandardItem;
+	item->setData(key, NameRole);
+	item->setData(value, DataRole);
+	m_postModel->appendRow(item);
+}
+
 QString RequestHolder::requestDescription() const
 {
 	return m_requestDescription;

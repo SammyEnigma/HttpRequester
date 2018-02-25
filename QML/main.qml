@@ -38,7 +38,9 @@ ApplicationWindow {
 		close.accepted = false
 		var name = stackView.currentItem.objectName
 
-		if (name != "Splash" && name != "Main")
+		if (addPostDialog.visible)
+			addPostDialog.close()
+		else if (name != "Splash" && name != "Main")
 		{
 			stackView.pop()
 			RequestHolder.reset()
@@ -81,5 +83,10 @@ ApplicationWindow {
 			id: themePage
 			ThemePage { }
 		}
+	}
+
+	AddPostDialog {
+		id: addPostDialog
+		modal: true
 	}
 }

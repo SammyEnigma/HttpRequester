@@ -76,7 +76,6 @@ class RequestHolder : public QObject
 	int m_requestTimeout;
 	QString m_requestName;
 	QString m_requestDescription;
-
 	bool m_proxyHasUser;
 
 public:
@@ -102,6 +101,8 @@ public:
 
 public slots:
 	void reset();
+	void removePostParameter(int index);
+	void addPostParameter(const QString &key, const QString &value);
 
 	void setAddressType(bool addressType);
 	void setAddressUrl(const QString &addressUrl);

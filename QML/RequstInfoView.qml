@@ -97,13 +97,28 @@ Page {
 		ColumnLayout {
 			Layout.fillHeight: false
 
-			CheckBox {
-				id: checkbox1
-				text: "Post Data"
-				leftPadding: 0
-				font.pointSize: mediumFont
-				checked: RequestHolder.hasPostData
-				onCheckedChanged: RequestHolder = checked
+			RowLayout {
+				Layout.fillHeight: false
+
+				CheckBox {
+					id: checkbox1
+					leftPadding: 0
+					font.pointSize: mediumFont
+
+					text: "Post Data"
+					Layout.fillWidth: true
+
+					checked: RequestHolder.hasPostData
+					onCheckedChanged: RequestHolder = checked
+				}
+
+				ToolButton {
+					text: "+"
+					enabled: checkbox1.checked
+					font.pointSize: iconFont
+					Layout.alignment: Qt.AlignVCenter
+					onClicked: addPostDialog.open()
+				}
 			}
 
 			Frame {
@@ -113,24 +128,32 @@ Page {
 				Layout.fillWidth: true
 
 				contentItem: ListView {
-					model: 5
 					clip: true
 					implicitHeight: 40
 					orientation: Qt.Horizontal
+					model: RequestHolderPostModel
 
-					delegate: Label {
-						id: label
-						height: 40
-						padding: 6
-						text: "\"name\" : \"shahriar\" "
-						verticalAlignment: Text.AlignVCenter
+					delegate: Row {
+						Label {
+							id: label
+							height: 40
+							padding: 6
+							rightPadding: 0
+							text: nameRole + " : " + dataRole
+							verticalAlignment: Text.AlignVCenter
+						}
+
+						ToolButton {
+							text: "-"
+							height: 40
+							font.pointSize: iconFont
+							anchors.verticalCenter: parent.verticalCenter
+						}
 
 						Rectangle {
 							width: 1
-							parent: label
 							color: label.linkColor
 							height: parent.height - 2
-							anchors.right: parent.right
 							anchors.verticalCenter: parent.verticalCenter
 						}
 					}

@@ -57,6 +57,12 @@ void RequestHandler::setupRequesterPost()
 	QHash<QByteArray, QByteArray> hash;
 	auto *model = Holder->postModel();
 
+	if (!Holder->hasPostData())
+	{
+		m_requester.setPostData(hash);
+		return;
+	}
+
 	for (int i = 0; i < model->rowCount(); ++i)
 	{
 		auto *item = model->item(i);
