@@ -1,9 +1,15 @@
 #include "requestholder.h"
 
+QmlModel *RequestHolder::headerModel() const { return m_headerModel; }
+
 RequestHolder::RequestHolder(QObject *parent) : QObject(parent)
 {
 	m_postModel = new QmlModel(this);
 	m_postModel->addRoles({Add(NameRole), Add(DataRole)});
+
+	m_headerModel = new QmlModel(this);
+	m_headerModel->addRoles({Add(NameRole), Add(DataRole)});
+
 	reset();
 }
 
@@ -119,6 +125,14 @@ void RequestHolder::setProxyHasUser(bool proxyHasUser)
 	emit proxyHasUserChanged(m_proxyHasUser);
 }
 
+void RequestHolder::setHasHeader(bool hasHeader)
+{
+	if (m_hasHeader == hasHeader) return;
+
+	m_hasHeader = hasHeader;
+	emit hasHeaderChanged(m_hasHeader);
+}
+
 void RequestHolder::setRequestName(QString requestName)
 {
 	if (m_requestName == requestName) return;
@@ -144,6 +158,7 @@ void RequestHolder::reset()
 	setRequestName("");
 	setRequestDescription("");
 	setProxyHasUser(false);
+	setHasHeader(false);
 }
 
 void RequestHolder::removePostParameter(int index)
@@ -159,12 +174,24 @@ void RequestHolder::addPostParameter(const QString &key, const QString &value)
 	m_postModel->appendRow(item);
 }
 
+void RequestHolder::removeHeader(int index) { m_headerModel->removeRow(index); }
+
+void RequestHolder::addHeader(const QString &key, const QString &value)
+{
+	QStandardItem *item = new QStandardItem;
+	item->setData(key, NameRole);
+	item->setData(value, DataRole);
+	m_headerModel->appendRow(item);
+}
+
 QString RequestHolder::requestDescription() const
 {
 	return m_requestDescription;
 }
 
 bool RequestHolder::proxyHasUser() const { return m_proxyHasUser; }
+
+bool RequestHolder::hasHeader() const { return m_hasHeader; }
 QmlModel *RequestHolder::postModel() const { return m_postModel; }
 bool RequestHolder::addressType() const { return m_addressType; }
 QString RequestHolder::addressUrl() const { return m_addressUrl; }

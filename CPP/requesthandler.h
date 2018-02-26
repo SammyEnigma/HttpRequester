@@ -38,6 +38,7 @@ class RequestHandler : public QObject
 	void setupRequester();
 	void setupRequesterProxy();
 	void setupRequesterPost();
+	void setupRequesterHeader();
 	void setupRequesterUrl();
 
 	int m_requestsCount;

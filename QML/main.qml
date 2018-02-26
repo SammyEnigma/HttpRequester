@@ -11,9 +11,6 @@ ApplicationWindow {
 	height: 480
 	title: "REST Requester"
 
-	x: (Screen.desktopAvailableWidth-width)/2
-	y: (Screen.desktopAvailableHeight-height)/2
-
 	property real smallFont: font.pointSize
 	property real mediumFont: font.pointSize + 2
 	property real largeFont: font.pointSize + 4
@@ -21,6 +18,10 @@ ApplicationWindow {
 	property real splashFont: font.pointSize + 15
 
 	Settings {
+		property alias x: w.x
+		property alias y: w.y
+		property alias width: w.width
+		property alias height: w.height
 		property alias darkTheme: w.windowDarkTheme
 		property alias showSplash: w.windowShowSplash
 		property alias themeColor: w.windowThemeColor

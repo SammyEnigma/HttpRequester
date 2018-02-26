@@ -19,11 +19,11 @@ ItemDelegate {
 		}
 
 		Label {
-			text: elapsed
+			text: elapsed/1000 + " Seconds"
 		}
 
 		Label {
-			text: done
+			text: done ? "succeeded":"Failed"
 		}
 	}
 }

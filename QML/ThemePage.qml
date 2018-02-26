@@ -31,6 +31,7 @@ Page {
 			Layout.fillHeight: false
 
 			Label {
+				leftPadding: 6
 				text: "Theme Color"
 			}
 

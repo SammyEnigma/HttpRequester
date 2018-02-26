@@ -20,5 +20,6 @@
         <file>QML/ThemePage.qml</file>
         <file>QML/Tools/ColorSelector.qml</file>
         <file>QML/AddPostDialog.qml</file>
+        <file>QML/Tools/AddHeaderDialog.qml</file>
     </qresource>
 </RCC>

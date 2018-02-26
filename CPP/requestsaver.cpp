@@ -105,6 +105,11 @@ void RequestSaver::createTables()
 		"CREATE TABLE IF NOT EXISTS post("
 		"rid INTEGER, key STRING, value STRING);");
 	if (!x) qDebug() << "Couldn't Create Post Table;";
+
+	x = m_query->exec(
+		"CREATE TABLE IF NOT EXISTS header("
+		"rid INTEGER, key STRING, value STRING);");
+	if (!x) qDebug() << "Couldn't Create Header Table;";
 }
 
 void RequestSaver::createDatabase()
@@ -150,6 +155,34 @@ int RequestSaver::saveProxyTable()
 	qDebug() << m_query->exec();
 
 	return m_query->lastInsertId().toInt();
+}
+
+void RequestSaver::saveHeaderTable(int rid)
+{
+	QVariantList rids;
+	QVariantList keys;
+	QVariantList values;
+
+	auto *model = Holder->headerModel();
+
+	for (int i = 0; i < model->rowCount(); ++i)
+	{
+		auto *item = model->item(i);
+
+		rids << rid;
+		keys << item->data(NameRole);
+		values << item->data(DataRole);
+	}
+
+	qDebug() << m_query->exec("BEGIN TRANSACTION;");
+
+	m_query->prepare("INSERT INTO header VALUES(?, ?, ?);");
+	m_query->bindValue(0, rids);
+	m_query->bindValue(1, keys);
+	m_query->bindValue(2, values);
+
+	qDebug() << m_query->execBatch();
+	qDebug() << m_query->exec("COMMIT;");
 }
 
 void RequestSaver::savePostTable(int rid)
@@ -258,6 +291,31 @@ void RequestSaver::loadPostTable(int rid)
 
 		model->appendRow(item);
 	}
+
+	Holder->setHasPostData(m_model->rowCount() != 0);
+}
+
+void RequestSaver::loadHeaderTable(int rid)
+{
+	m_query->prepare("SELECT * FROM header WHERE rid=? ORDER BY rowid ASC;");
+	m_query->bindValue(0, rid);
+	qDebug() << m_query->exec();
+
+	auto *model = Holder->headerModel();
+	model->clear();
+
+	while (m_query->next())
+	{
+		auto R = m_query->record();
+		auto *item = new QStandardItem;
+
+		item->setData(R.value("key"), NameRole);
+		item->setData(R.value("value"), DataRole);
+
+		model->appendRow(item);
+	}
+
+	Holder->setHasHeader(m_model->rowCount() != 0);
 }
 
 void RequestSaver::fillModel()

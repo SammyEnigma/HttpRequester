@@ -60,7 +60,11 @@ class RequestHolder : public QObject
 	Q_PROPERTY(QString requestDescription READ requestDescription WRITE
 				   setRequestDescription NOTIFY requestDescriptionChanged)
 
+	Q_PROPERTY(bool hasHeader READ hasHeader WRITE setHasHeader NOTIFY
+				   hasHeaderChanged)
+
 	QmlModel *m_postModel;
+	QmlModel *m_headerModel;
 
 	bool m_addressType;
 	QString m_addressUrl;
@@ -78,10 +82,13 @@ class RequestHolder : public QObject
 	QString m_requestDescription;
 	bool m_proxyHasUser;
 
+	bool m_hasHeader;
+
 public:
 	explicit RequestHolder(QObject *parent = nullptr);
 
 	QmlModel *postModel() const;
+	QmlModel *headerModel() const;
 
 	bool addressType() const;
 	QString addressUrl() const;
@@ -98,11 +105,15 @@ public:
 	QString requestName() const;
 	QString requestDescription() const;
 	bool proxyHasUser() const;
+	bool hasHeader() const;
 
 public slots:
 	void reset();
 	void removePostParameter(int index);
 	void addPostParameter(const QString &key, const QString &value);
+
+	void removeHeader(int index);
+	void addHeader(const QString &key, const QString &value);
 
 	void setAddressType(bool addressType);
 	void setAddressUrl(const QString &addressUrl);
@@ -119,6 +130,7 @@ public slots:
 	void setRequestName(QString requestName);
 	void setRequestDescription(QString requestDescription);
 	void setProxyHasUser(bool proxyHasUser);
+	void setHasHeader(bool hasHeader);
 
 signals:
 	void addressTypeChanged(bool addressType);
@@ -136,6 +148,7 @@ signals:
 	void requestNameChanged(QString requestName);
 	void requestDescriptionChanged(QString requestDescription);
 	void proxyHasUserChanged(bool proxyHasUser);
+	void hasHeaderChanged(bool hasHeader);
 };
 
 #endif  // REQUESTHOLDER_H

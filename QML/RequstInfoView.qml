@@ -40,7 +40,7 @@ Page {
 					placeholder: "http://example.com"
 
 					validator: RegExpValidator {
-						regExp: /\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d/
+						regExp: /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
 					}
 
 					Layout.fillWidth: true
@@ -109,7 +109,7 @@ Page {
 					Layout.fillWidth: true
 
 					checked: RequestHolder.hasPostData
-					onCheckedChanged: RequestHolder = checked
+					onCheckedChanged: RequestHolder.hasPostData = checked
 				}
 
 				ToolButton {
@@ -148,11 +148,80 @@ Page {
 							height: 40
 							font.pointSize: iconFont
 							anchors.verticalCenter: parent.verticalCenter
+							onClicked: RequestHolder.removePostParameter(index)
 						}
 
 						Rectangle {
 							width: 1
 							color: label.linkColor
+							height: parent.height - 2
+							anchors.verticalCenter: parent.verticalCenter
+						}
+					}
+				}
+			}
+		}
+
+		ColumnLayout {
+			Layout.fillHeight: false
+
+			RowLayout {
+				Layout.fillHeight: false
+
+				CheckBox {
+					id: checkbox2
+					leftPadding: 0
+					font.pointSize: mediumFont
+
+					text: "Headers"
+					Layout.fillWidth: true
+
+					checked: RequestHolder.hasHeader
+					onCheckedChanged: RequestHolder.hasHeader = checked
+				}
+
+				ToolButton {
+					text: "+"
+					enabled: checkbox2.checked
+					font.pointSize: iconFont
+					Layout.alignment: Qt.AlignVCenter
+					onClicked: addPostDialog.open()
+				}
+			}
+
+			Frame {
+				enabled: checkbox2.checked
+				padding: 0
+				Layout.leftMargin: 12
+				Layout.fillWidth: true
+
+				contentItem: ListView {
+					clip: true
+					implicitHeight: 40
+					orientation: Qt.Horizontal
+					model: RequestHolderPostModel
+
+					delegate: Row {
+						Label {
+							id: label1
+							height: 40
+							padding: 6
+							rightPadding: 0
+							text: nameRole + " : " + dataRole
+							verticalAlignment: Text.AlignVCenter
+						}
+
+						ToolButton {
+							text: "-"
+							height: 40
+							font.pointSize: iconFont
+							anchors.verticalCenter: parent.verticalCenter
+							onClicked: RequestHolder.removeHeader(index)
+						}
+
+						Rectangle {
+							width: 1
+							color: label1.linkColor
 							height: parent.height - 2
 							anchors.verticalCenter: parent.verticalCenter
 						}

@@ -31,12 +31,14 @@ class RequestSaver : public QObject
 	int saveRequestTable();
 	int saveGeneralTable();
 	int saveProxyTable();
+	void saveHeaderTable(int rid);
 	void savePostTable(int rid);
 
 	void loadRequestTable(int rid);
 	void loadGeneralTable(int gid);
 	void loadProxyTable(int pid);
 	void loadPostTable(int rid);
+	void loadHeaderTable(int rid);
 
 	void fillModel();
 

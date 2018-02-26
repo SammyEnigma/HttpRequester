@@ -5,16 +5,23 @@ Requester::Requester(QObject *parent) : QObject(parent)
 	m_done = false;
 	setState(BaseState);
 	m_data = QByteArray();
+	m_elapsed = 0;
 
 	connect(&m_downloader, &Downloader::finished, this, &Requester::readReply);
+}
+
+void Requester::setHeaders(const QHash<QByteArray, QByteArray> &headers)
+{
+	m_headers = headers;
 }
 
 void Requester::readReply(Reply *R)
 {
 	m_data = R->readAll();
-	setState(LoadedState);
 	m_done = true;
 	m_elapsed = m_timer.elapsed();
+
+	setState(LoadedState);
 }
 
 void Requester::setState(State state)
@@ -44,6 +51,11 @@ void Requester::start()
 
 	setState(LoadingState);
 	m_timer.restart();
+}
+
+void Requester::fixHeaders(Request &request)
+{
+	// TODO write
 }
 
 void Requester::setPostData(const QHash<QByteArray, QByteArray> &postData)

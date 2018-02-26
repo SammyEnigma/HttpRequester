@@ -73,6 +73,27 @@ void RequestHandler::setupRequesterPost()
 	m_requester.setPostData(hash);
 }
 
+void RequestHandler::setupRequesterHeader()
+{
+	QHash<QByteArray, QByteArray> hash;
+	auto *model = Holder->headerModel();
+
+	if (!Holder->hasHeader())
+	{
+		m_requester.setPostData(hash);
+		return;
+	}
+
+	for (int i = 0; i < model->rowCount(); ++i)
+	{
+		auto *item = model->item(i);
+		hash[item->data(NameRole).toByteArray()] =
+			item->data(DataRole).toByteArray();
+	}
+
+	m_requester.setHeaders(hash);
+}
+
 void RequestHandler::setupRequesterUrl()
 {
 	if (!Holder->addressType())
@@ -96,6 +117,8 @@ void RequestHandler::requestDone()
 
 	if (Holder->requestCount() == 1)
 	{
+		qDebug() << m_requester.done();
+
 		setState(LoadedState);
 		setSingleElapsed(m_requester.elapsed());
 		setSingleFinished(m_requester.done());

@@ -33,6 +33,7 @@ class Requester : public QObject
 	int m_timeout;
 	QString m_url;
 	QHash<QByteArray, QByteArray> m_postData;
+	QHash<QByteArray, QByteArray> m_headers;
 
 	bool m_done;  // true for success. false for failure
 	State m_state;
@@ -48,6 +49,7 @@ public:
 	explicit Requester(QObject *parent = nullptr);
 
 	void start();
+	void fixHeaders(Request &request);
 
 	bool done() const;
 	State state() const;
@@ -57,6 +59,7 @@ public:
 	void setTimeout(int timeout);
 	void setUrl(const QString &url);
 	void setProxy(const Proxy &proxy);
+	void setHeaders(const QHash<QByteArray, QByteArray> &headers);
 	void setPostData(const QHash<QByteArray, QByteArray> &postData);
 
 signals:
