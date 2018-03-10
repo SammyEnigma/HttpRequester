@@ -12,7 +12,7 @@ Page {
 
 	Label {
 		anchors.centerIn: parent
-		text: "Rest Requester"
+		text: "Http Requester"
 		font.pointSize: splashFont
 		color: Material.accent
 	}

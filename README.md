@@ -1,1 +1,1 @@
-RESTRequester
+HttpRequester

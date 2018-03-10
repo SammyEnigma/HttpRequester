@@ -9,7 +9,7 @@ ApplicationWindow {
 	visible: true
 	width: 640
 	height: 480
-	title: "REST Requester"
+	title: "Http Requester"
 
 	property real smallFont: font.pointSize
 	property real mediumFont: font.pointSize + 2

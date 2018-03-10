@@ -10,7 +10,7 @@ Page {
 
 	header: TopBar {
 		id: topBar
-		title: "REST Requester"
+		title: "Http Requester"
 
 		ToolButton {
 			id: menuButton
