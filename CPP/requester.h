@@ -32,8 +32,9 @@ class Requester : public QObject
 
 	int m_timeout;
 	QString m_url;
-	QHash<QByteArray, QByteArray> m_postData;
+	QStringList m_knownHeaders;
 	QHash<QByteArray, QByteArray> m_headers;
+	QHash<QByteArray, QByteArray> m_postData;
 
 	bool m_done;  // true for success. false for failure
 	State m_state;

@@ -7,6 +7,11 @@ Requester::Requester(QObject *parent) : QObject(parent)
 	m_data = QByteArray();
 	m_elapsed = 0;
 
+	m_knownHeaders << "Content-Type"
+				   << "Content-Length"
+				   << "Cookie"
+				   << "User-Agent";
+
 	connect(&m_downloader, &Downloader::finished, this, &Requester::readReply);
 }
 
@@ -36,9 +41,11 @@ void Requester::start()
 {
 	setState(BaseState);
 
-	bool hasPostData = !m_postData.isEmpty();
 	Request R = Request(QUrl(m_url));
+	fixHeaders(R);
+
 	QUrlQuery Q;
+	bool hasPostData = !m_postData.isEmpty();
 
 	if (hasPostData)
 		for (const auto &K : m_postData.keys())
@@ -55,7 +62,22 @@ void Requester::start()
 
 void Requester::fixHeaders(Request &request)
 {
-	// TODO write
+	if (m_headers.contains("Content-Type"))
+		request.setHeader(Request::ContentTypeHeader,
+						  m_headers["Content-Type"]);
+	if (m_headers.contains("Content-Length"))
+		request.setHeader(Request::ContentLengthHeader,
+						  m_headers["Content-Length"]);
+	if (m_headers.contains("Cookie"))
+		request.setHeader(Request::CookieHeader, m_headers["Cookie"]);
+	if (m_headers.contains("User-Agent"))
+		request.setHeader(Request::UserAgentHeader, m_headers["User-Agent"]);
+
+	for (const auto &key : m_headers.keys())
+	{
+		if (m_knownHeaders.contains(key)) continue;
+		request.setRawHeader(key, m_headers[key]);
+	}
 }
 
 void Requester::setPostData(const QHash<QByteArray, QByteArray> &postData)
