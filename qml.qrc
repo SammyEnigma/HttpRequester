@@ -12,7 +12,6 @@
         <file>QML/GeneralInfoView.qml</file>
         <file>QML/Tools/RecentListDelegate.qml</file>
         <file>QML/ResultStatusView.qml</file>
-        <file>QML/ResultInfoListVliew.qml</file>
         <file>QML/ResultInfoView.qml</file>
         <file>QML/SplashPage.qml</file>
         <file>QML/Tools/ResultListDelegate.qml</file>
@@ -21,5 +20,6 @@
         <file>QML/Tools/ColorSelector.qml</file>
         <file>QML/AddPostDialog.qml</file>
         <file>QML/Tools/AddHeaderDialog.qml</file>
+        <file>QML/ResultInfoListView.qml</file>
     </qresource>
 </RCC>

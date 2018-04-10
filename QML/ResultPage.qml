@@ -54,7 +54,7 @@ Page {
 			currentIndex: tabBar.currentIndex
 
 			ResultStatusView { }
-			ResultInfoListVliew { }
+			ResultInfoListView { }
 		}
 	}
 }

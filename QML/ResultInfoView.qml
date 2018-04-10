@@ -13,6 +13,10 @@ Page {
 		done: page.done
 		elapsed: page.elapsed
 		requestIndex: page.index
+		clickable: false
+
+		Material.background: page.Material.primary
+		Material.foreground: page.Material.background
 
 		Rectangle {
 			height: 1
@@ -36,5 +40,14 @@ Page {
 			text: page.info
 			width: parent.width
 		}
+	}
+
+	Label {
+		text: label.text.length ? "":"No Contents Available!"
+		anchors.fill: parent
+		elide: Text.ElideRight
+		font.pointSize: mediumFont
+		verticalAlignment: Text.AlignVCenter
+		horizontalAlignment: Text.AlignHCenter
 	}
 }
