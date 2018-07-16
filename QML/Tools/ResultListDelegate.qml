@@ -15,7 +15,7 @@ ItemDelegate {
 		parent: control.background
 		anchors.fill: parent
 		color: Material.background
-		opacity: .7
+//		opacity: .7
 	}
 
 	MouseArea {

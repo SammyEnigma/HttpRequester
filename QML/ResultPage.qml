@@ -23,38 +23,17 @@ Page {
 		}
 	}
 
-	ColumnLayout {
-		spacing: 0
+	SwipeView {
+		id: swipeView
 		anchors.fill: parent
+		interactive: false
 
-		TabBar {
-			id: tabBar
-			Layout.fillWidth: true
-			currentIndex: swipeView.currentIndex
+		ResultStatusView { }
+		ResultInfoListView { }
+	}
 
-			TabButton {
-				text: "Status"
-			}
-
-			TabButton {
-				text: "Data"
-			}
-		}
-
-		Rectangle {
-			height: 1
-			color: Material.accent
-			Layout.fillWidth: true
-		}
-
-		SwipeView {
-			id: swipeView
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			currentIndex: tabBar.currentIndex
-
-			ResultStatusView { }
-			ResultInfoListView { }
-		}
+	Connections {
+		target: RequestHandler
+		onStateChanged: if (state == 2) swipeView.incrementCurrentIndex()
 	}
 }

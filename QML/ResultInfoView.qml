@@ -28,6 +28,7 @@ Page {
 	}
 
 	Flickable {
+		clip: true
 		anchors.fill: parent
 		contentWidth: width
 		contentHeight: label.height
@@ -39,6 +40,7 @@ Page {
 			padding: 12
 			text: page.info
 			width: parent.width
+			wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 		}
 	}
 
