@@ -187,11 +187,12 @@ void RequestSaver::saveHeaderTable(int rid)
 
 void RequestSaver::savePostTable(int rid)
 {
+	auto *model = Holder->postModel();
+	if (model->rowCount()) return;
+
 	QVariantList rids;
 	QVariantList keys;
 	QVariantList values;
-
-	auto *model = Holder->postModel();
 
 	for (int i = 0; i < model->rowCount(); ++i)
 	{

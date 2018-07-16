@@ -48,7 +48,11 @@ Page {
 			text: "+"
 			parent: topBar.row
 			font.pointSize: iconFont
-			onClicked: stackView.push(createPage)
+
+			onClicked: {
+				stackView.push(createPage)
+				RequestHolder.reset()
+			}
 		}
 	}
 

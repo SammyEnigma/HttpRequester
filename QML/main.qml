@@ -27,9 +27,9 @@ ApplicationWindow {
 		property alias themeColor: w.windowThemeColor
 	}
 
-	property bool windowDarkTheme: true
+	property bool windowDarkTheme: false
 	property bool windowShowSplash: true
-	property string windowThemeColor: "#f44336"
+	property string windowThemeColor: "#00bcd4"
 
 	Material.accent: Material.primary
 	Material.primary: windowThemeColor

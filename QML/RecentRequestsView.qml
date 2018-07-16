@@ -51,8 +51,12 @@ Item {
 		Button {
 			text: "New Request"
 			Layout.fillWidth: true
-			onClicked: stackView.push(createPage)
 			Material.background: Material.primary
+
+			onClicked: {
+				stackView.push(createPage)
+				RequestHolder.reset()
+			}
 		}
 	}
 }
