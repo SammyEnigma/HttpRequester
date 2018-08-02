@@ -188,7 +188,7 @@ void RequestSaver::saveHeaderTable(int rid)
 void RequestSaver::savePostTable(int rid)
 {
 	auto *model = Holder->postModel();
-	if (model->rowCount()) return;
+	if (!model->rowCount()) return;
 
 	QVariantList rids;
 	QVariantList keys;
@@ -293,7 +293,7 @@ void RequestSaver::loadPostTable(int rid)
 		model->appendRow(item);
 	}
 
-	Holder->setHasPostData(m_model->rowCount() != 0);
+	Holder->setHasPostData(model->rowCount() != 0);
 }
 
 void RequestSaver::loadHeaderTable(int rid)

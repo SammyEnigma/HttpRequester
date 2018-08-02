@@ -18,8 +18,15 @@ Page {
 
 		ToolButton {
 			text: "➞"
+			rotation: 180
 			parent: topBar.row
 			font.pointSize: iconFont
+			onClicked: stackView.pop()
+		}
+
+		ToolButton {
+			text: "Next"
+			parent: topBar.row
 
 			onClicked: {
 				if (!saved) {
@@ -33,10 +40,8 @@ Page {
 		}
 
 		ToolButton {
-			text: "➞"
-			rotation: 90
+			text: "Save"
 			parent: topBar.row
-			font.pointSize: iconFont
 
 			onClicked: {
 				if (saved)
@@ -45,14 +50,6 @@ Page {
 				saved = true;
 				RequestSaver.saveRequest()
 			}
-		}
-
-		ToolButton {
-			text: "➞"
-			rotation: 180
-			parent: topBar.row
-			font.pointSize: iconFont
-			onClicked: stackView.pop()
 		}
 	}
 

@@ -9,6 +9,7 @@ Page {
 	id: page
 	objectName: "Theme"
 	background: Item { }
+	padding: 20
 
 	header: TopBar {
 		id: topBar
@@ -42,23 +43,18 @@ Page {
 			}
 		}
 
-		RowLayout {
-			spacing: 18
-			Layout.fillHeight: false
+		Switch {
+			text: "Dark Theme"
+			Layout.fillWidth: true
+			checked: windowDarkTheme
+			onCheckedChanged: windowDarkTheme = checked
+		}
 
-			Switch {
-				text: "Dark Theme"
-				Layout.fillWidth: true
-				checked: windowDarkTheme
-				onCheckedChanged: windowDarkTheme = checked
-			}
-
-			Switch {
-				Layout.fillWidth: true
-				text: "Show Splash Screen"
-				checked: windowShowSplash
-				onCheckedChanged: windowShowSplash = checked
-			}
+		Switch {
+			Layout.fillWidth: true
+			text: "Show Splash Screen"
+			checked: windowShowSplash
+			onCheckedChanged: windowShowSplash = checked
 		}
 
 		Item {
