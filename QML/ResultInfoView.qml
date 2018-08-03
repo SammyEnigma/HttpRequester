@@ -8,22 +8,36 @@ import "Tools"
 Page {
 	background: Item { }
 
-	header: ResultListDelegate {
-		id: del
-		done: page.done
-		elapsed: page.elapsed
-		requestIndex: page.index
-		clickable: false
+//	header: ResultListDelegate {
+//		id: del
+//		done: page.done
+//		elapsed: page.elapsed
+//		requestIndex: page.index
+//		clickable: false
 
-		Material.background: page.Material.primary
-		Material.foreground: page.Material.background
+//		Material.background: page.Material.primary
+//		Material.foreground: page.Material.background
 
-		Rectangle {
-			height: 1
-			parent: del
-			width: parent.width
-			color: Material.accent
-			anchors.bottom: parent.bottom
+//		Rectangle {
+//			height: 1
+//			parent: del
+//			width: parent.width
+//			color: Material.accent
+//			anchors.bottom: parent.bottom
+//		}
+//	}
+
+	header: TabBar {
+		TabButton {
+			text: "Data"
+		}
+
+		TabButton {
+			text: "Header"
+		}
+
+		TabButton {
+			text: "Request Info"
 		}
 	}
 

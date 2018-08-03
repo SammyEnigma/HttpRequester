@@ -26,6 +26,8 @@ void Requester::readReply(Reply *R)
 	m_done = true;
 	m_elapsed = m_timer.elapsed();
 
+	qDebug() << R->rawHeaderPairs();
+
 	setState(LoadedState);
 }
 
