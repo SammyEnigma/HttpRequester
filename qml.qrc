@@ -21,5 +21,9 @@
         <file>QML/AddPostDialog.qml</file>
         <file>QML/Tools/AddHeaderDialog.qml</file>
         <file>QML/ResultInfoListView.qml</file>
+        <file>QML/ContentFlickerView.qml</file>
+        <file>QML/ResultDataPage.qml</file>
+        <file>QML/ResultHeaderPage.qml</file>
+        <file>QML/ResultStatusPage.qml</file>
     </qresource>
 </RCC>

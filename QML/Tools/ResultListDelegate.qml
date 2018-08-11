@@ -9,20 +9,6 @@ ItemDelegate {
 	property bool done
 	property real elapsed
 	property int requestIndex
-	property bool clickable: true
-
-	Rectangle {
-		parent: control.background
-		anchors.fill: parent
-		color: Material.background
-//		opacity: .7
-	}
-
-	MouseArea {
-		visible: !clickable
-		hoverEnabled: true
-		anchors.fill: parent
-	}
 
 	contentItem: RowLayout {
 		id: row

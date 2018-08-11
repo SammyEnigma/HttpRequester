@@ -59,5 +59,4 @@ Page {
 	RecentRequestsView {
 		anchors.fill: parent
 	}
-
 }

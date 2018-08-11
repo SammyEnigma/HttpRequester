@@ -45,7 +45,7 @@ void RequestSaver::saveRequest()
 
 	auto *item = new QStandardItem;
 	item->setData(id, IDRole);
-	item->setData(name, NameRole);
+	item->setData(name, TitleRole);
 	item->setData(time, TimeRole);
 	m_model->insertRow(0, item);
 }

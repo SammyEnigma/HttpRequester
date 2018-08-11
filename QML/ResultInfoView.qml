@@ -8,58 +8,64 @@ import "Tools"
 Page {
 	background: Item { }
 
-//	header: ResultListDelegate {
-//		id: del
-//		done: page.done
-//		elapsed: page.elapsed
-//		requestIndex: page.index
-//		clickable: false
+	header: ColumnLayout {
+		spacing: 0
 
-//		Material.background: page.Material.primary
-//		Material.foreground: page.Material.background
+		TabBar {
+			id: tabbar
+			Layout.fillWidth: true
 
-//		Rectangle {
-//			height: 1
-//			parent: del
-//			width: parent.width
-//			color: Material.accent
-//			anchors.bottom: parent.bottom
-//		}
-//	}
+			onCurrentIndexChanged: {
+				if (currentIndex == 0)
+					stack.replace(dataView)
+				if (currentIndex == 1)
+					stack.replace(headerView)
+				if (currentIndex == 2)
+					stack.replace(statusView)
+			}
 
-	header: TabBar {
-		TabButton {
-			text: "Data"
+			TabButton {
+				text: "Data"
+			}
+
+			TabButton {
+				text: "Headers"
+			}
+
+			TabButton {
+				text: "Request Info"
+			}
 		}
 
-		TabButton {
-			text: "Header"
-		}
-
-		TabButton {
-			text: "Request Info"
+		Rectangle {
+			height: 1
+			color: Material.accent
+			Layout.fillWidth: true
 		}
 	}
 
-	Flickable {
-		clip: true
-		anchors.fill: parent
-		contentWidth: width
-		contentHeight: label.height
+	contentItem: StackView {
+		id: stack
+		initialItem: dataView
 
-		ScrollBar.vertical: ScrollBar { }
+		Component {
+			id: dataView
+			ResultDataPage { }
+		}
 
-		Label {
-			id: label
-			padding: 12
-			text: page.info
-			width: parent.width
-			wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+		Component {
+			id: headerView
+			ResultHeaderPage { }
+		}
+
+		Component {
+			id: statusView
+			ResultStatusPage { }
 		}
 	}
 
 	Label {
-		text: label.text.length ? "":"No Contents Available!"
+		//		text: label.text.length ? "":"No Contents Available!"
 		anchors.fill: parent
 		elide: Text.ElideRight
 		font.pointSize: mediumFont

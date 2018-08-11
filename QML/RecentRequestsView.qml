@@ -31,7 +31,7 @@ Item {
 				width: parent.width*.9
 				color: Material.accent
 				anchors.bottom: parent.bottom
-				visible: index != view.count
+				visible: index != view.count-1
 				anchors.horizontalCenter: parent.horizontalCenter
 			}
 		}

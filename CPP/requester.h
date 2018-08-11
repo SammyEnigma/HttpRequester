@@ -42,6 +42,7 @@ class Requester : public QObject
 	int m_elapsed;
 	QByteArray m_data;
 	Downloader m_downloader;
+	QString m_replyHeaders;
 
 private slots:
 	void readReply(Reply *R);
@@ -56,6 +57,7 @@ public:
 	State state() const;
 	int elapsed() const;
 	const QByteArray &data() const;
+	const QString &replyHeaders() const;
 
 	void setTimeout(int timeout);
 	void setUrl(const QString &url);

@@ -10,9 +10,11 @@ Page {
 	background: Item { }
 
 	property int index: 0
+
 	property string info: RequestHandler.singleInfo
 	property bool done: RequestHandler.singleFinished
 	property int elapsed: RequestHandler.singleElapsed
+	property string headers: RequestHandler.singleHeaders
 
 	StackView {
 		id: resultStack
@@ -29,15 +31,18 @@ Page {
 
 				delegate: ResultListDelegate {
 					id: del
+					width: parent.width
+
+					done: finishedRole
 					elapsed: elapsedRole
 					requestIndex: index + 1
-					done: finishedRole
 
 					onClicked: {
 						page.elapsed = elapsedRole
 						page.index = index
 						page.info = infoRole
 						page.done = finishedRole
+						page.headers = headersRole
 						resultStack.push(details)
 					}
 
@@ -47,7 +52,7 @@ Page {
 						width: parent.width*.9
 						color: Material.accent
 						anchors.bottom: parent.bottom
-						visible: index != view.count
+						visible: index != view.count-1
 						anchors.horizontalCenter: parent.horizontalCenter
 					}
 				}

@@ -20,13 +20,18 @@ void Requester::setHeaders(const QHash<QByteArray, QByteArray> &headers)
 	m_headers = headers;
 }
 
+const QString &Requester::replyHeaders() const { return m_replyHeaders; }
+
 void Requester::readReply(Reply *R)
 {
 	m_data = R->readAll();
 	m_done = true;
 	m_elapsed = m_timer.elapsed();
 
-	qDebug() << R->rawHeaderPairs();
+	m_replyHeaders.clear();
+	for (const auto &P : R->rawHeaderPairs())
+		m_replyHeaders += P.first + ": " + P.second + "\n";
+	m_replyHeaders.remove(m_replyHeaders.size() - 1, 1);
 
 	setState(LoadedState);
 }

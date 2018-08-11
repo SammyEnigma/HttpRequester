@@ -4,6 +4,10 @@ RequestHolder *RequestHandler::Holder = nullptr;
 
 RequestHandler::RequestHandler(QObject *parent) : QObject(parent)
 {
+	m_model = new QmlModel(this);
+	m_model->addRoles(
+		{Add(ElapsedRole), Add(InfoRole), Add(FinishedRole), Add(HeadersRole)});
+
 	m_requester.setParent(this);
 	setState(BaseState);
 
@@ -18,6 +22,8 @@ RequestHandler::RequestHandler(QObject *parent) : QObject(parent)
 }
 
 QmlModel *RequestHandler::model() const { return m_model; }
+
+QString RequestHandler::singleHeaders() const { return m_singleHeaders; }
 
 void RequestHandler::setupRequester()
 {
@@ -123,14 +129,16 @@ void RequestHandler::requestDone()
 		setSingleElapsed(m_requester.elapsed());
 		setSingleFinished(m_requester.done());
 		setSingleInfo(m_requester.data());
+		setSingleHeaders(m_requester.replyHeaders());
 		return;
 	}
 
 	QStandardItem *item = new QStandardItem();
 
-	item->setData(m_requester.elapsed(), ElapsedRole);
 	item->setData(m_requester.data(), InfoRole);
 	item->setData(m_requester.done(), FinishedRole);
+	item->setData(m_requester.elapsed(), ElapsedRole);
+	item->setData(m_requester.replyHeaders(), HeadersRole);
 
 	m_model->appendRow(item);
 
@@ -204,6 +212,14 @@ void RequestHandler::setSingleFinished(bool singleFinished)
 
 	m_singleFinished = singleFinished;
 	emit singleFinishedChanged(m_singleFinished);
+}
+
+void RequestHandler::setSingleHeaders(QString singleHeaders)
+{
+	if (m_singleHeaders == singleHeaders) return;
+
+	m_singleHeaders = singleHeaders;
+	emit singleHeadersChanged(m_singleHeaders);
 }
 
 int RequestHandler::requestsCount() const { return m_requestsCount; }

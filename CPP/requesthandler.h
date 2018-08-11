@@ -10,7 +10,8 @@ enum RequestRoles
 {
 	ElapsedRole = Qt::UserRole + 1,
 	InfoRole = Qt::UserRole + 2,
-	FinishedRole = Qt::UserRole + 3
+	FinishedRole = Qt::UserRole + 3,
+	HeadersRole = Qt::UserRole + 4
 };
 
 class RequestHandler : public QObject
@@ -18,6 +19,8 @@ class RequestHandler : public QObject
 	Q_OBJECT
 
 	Q_ENUM(State)
+
+	// TODO remove setters from properties
 
 	Q_PROPERTY(int requestsCount READ requestsCount WRITE setRequestsCount
 				   NOTIFY requestsCountChanged)
@@ -31,6 +34,8 @@ class RequestHandler : public QObject
 				   singleInfoChanged)
 	Q_PROPERTY(bool singleFinished READ singleFinished WRITE setSingleFinished
 				   NOTIFY singleFinishedChanged)
+	Q_PROPERTY(QString singleHeaders READ singleHeaders WRITE setSingleHeaders
+				   NOTIFY singleHeadersChanged)
 
 	Requester m_requester;
 	QmlModel *m_model;
@@ -47,6 +52,7 @@ class RequestHandler : public QObject
 	int m_singleElapsed;
 	QString m_singleInfo;
 	bool m_singleFinished;
+	QString m_singleHeaders;
 
 private slots:
 	void requestDone();
@@ -62,6 +68,7 @@ public:
 	int singleElapsed() const;
 	QString singleInfo() const;
 	bool singleFinished() const;
+	QString singleHeaders() const;
 
 	QmlModel *model() const;
 
@@ -74,6 +81,7 @@ public slots:
 	void setSingleElapsed(int singleElapsed);
 	void setSingleInfo(QString singleInfo);
 	void setSingleFinished(bool singleFinished);
+	void setSingleHeaders(QString singleHeaders);
 
 signals:
 	void requestsCountChanged(int requestsCount);
@@ -82,6 +90,7 @@ signals:
 	void singleElapsedChanged(int singleElapsed);
 	void singleInfoChanged(QString singleInfo);  // TODO: remove args?
 	void singleFinishedChanged(bool singleFinished);
+	void singleHeadersChanged(QString singleHeaders);
 };
 
 #endif  // REQUESTHANDLER_H
