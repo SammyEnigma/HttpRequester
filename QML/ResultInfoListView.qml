@@ -11,6 +11,8 @@ Page {
 
 	property int index: 0
 
+	onInfoChanged: RequestSaver.saveToFile(info)
+
 	property string info: RequestHandler.singleInfo
 	property bool done: RequestHandler.singleFinished
 	property int elapsed: RequestHandler.singleElapsed

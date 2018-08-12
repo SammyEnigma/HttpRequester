@@ -25,5 +25,6 @@
         <file>QML/ResultDataPage.qml</file>
         <file>QML/ResultHeaderPage.qml</file>
         <file>QML/ResultStatusPage.qml</file>
+        <file>QML/ResultWebPage.qml</file>
     </qresource>
 </RCC>

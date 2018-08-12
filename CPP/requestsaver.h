@@ -5,8 +5,12 @@
 
 #include <QDateTime>
 #include <QDebug>
+#include <QFile>
 #include <QObject>
+#include <QStandardPaths>
 #include <QtSql>
+
+using QSP = QStandardPaths;
 
 enum ListRoles
 {
@@ -51,6 +55,9 @@ public:
 	QmlModel *model() const;
 
 public slots:
+	QString tempFilePath();
+	void saveToFile(const QString &content);
+
 	void saveRequest();
 	void loadRequest(int id);
 };

@@ -75,6 +75,29 @@ void RequestSaver::loadRequest(int id)
 
 QmlModel *RequestSaver::model() const { return m_model; }
 
+QString RequestSaver::tempFilePath()
+{
+	auto path = QSP::writableLocation(QSP::TempLocation);
+	if (path.isEmpty()) path = QSP::writableLocation(QSP::DataLocation);
+
+	auto sep = QDir::separator();
+	if (!path.endsWith(sep)) path += sep;
+
+	path += "temp.html";
+	return path;
+}
+
+void RequestSaver::saveToFile(const QString &content)
+{
+	QFile F(tempFilePath());
+	auto x = F.open(QIODevice::WriteOnly);
+	qDebug() << x;
+
+	F.write(content.toUtf8());
+	F.flush();
+	F.close();
+}
+
 void RequestSaver::createTables()
 {
 	m_query = new QSqlQuery(m_database);
