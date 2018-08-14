@@ -36,12 +36,17 @@ class Requester : public QObject
 	QHash<QByteArray, QByteArray> m_headers;
 	QHash<QByteArray, QByteArray> m_postData;
 
+	Downloader m_downloader;
+
 	bool m_done;  // true for success. false for failure
 	State m_state;
 	QTime m_timer;
 	int m_elapsed;
+
+	int m_statusCode;
+	QString m_statusMessage;
+
 	QByteArray m_data;
-	Downloader m_downloader;
 	QString m_replyHeaders;
 
 private slots:
@@ -58,6 +63,9 @@ public:
 	int elapsed() const;
 	const QByteArray &data() const;
 	const QString &replyHeaders() const;
+
+	int statusCode() const;
+	const QString &statusMessage() const;
 
 	void setTimeout(int timeout);
 	void setUrl(const QString &url);

@@ -1,12 +1,22 @@
 #include "requesthandler.h"
 
+#ifdef Q_OS_ANDROID
+#include <QColor>
+#include <QtAndroidExtras/QAndroidJniObject>
+#include <QtAndroidExtras/QtAndroid>
+#define FLAG_TRANSLUCENT_STATUS 0x04000000
+#define FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS 0x80000000
+#endif
+
 RequestHolder *RequestHandler::Holder = nullptr;
 
 RequestHandler::RequestHandler(QObject *parent) : QObject(parent)
 {
 	m_model = new QmlModel(this);
-	m_model->addRoles(
-		{Add(ElapsedRole), Add(InfoRole), Add(FinishedRole), Add(HeadersRole)});
+
+	m_model->addRoles({Add(ElapsedRole), Add(InfoRole), Add(FinishedRole),
+					   Add(HeadersRole), Add(StatusCodeRole),
+					   Add(StatusMessageRole)});
 
 	m_requester.setParent(this);
 	setState(BaseState);
@@ -22,6 +32,13 @@ RequestHandler::RequestHandler(QObject *parent) : QObject(parent)
 }
 
 QmlModel *RequestHandler::model() const { return m_model; }
+
+int RequestHandler::singleStatusCode() const { return m_singleStatusCode; }
+
+QString RequestHandler::singleStatusMessage() const
+{
+	return m_singleStatusMessage;
+}
 
 QString RequestHandler::singleHeaders() const { return m_singleHeaders; }
 
@@ -130,6 +147,8 @@ void RequestHandler::requestDone()
 		setSingleFinished(m_requester.done());
 		setSingleInfo(m_requester.data());
 		setSingleHeaders(m_requester.replyHeaders());
+		setSingleStatusCode(m_requester.statusCode());
+		setSingleStatusMessage(m_requester.statusMessage());
 		return;
 	}
 
@@ -139,6 +158,8 @@ void RequestHandler::requestDone()
 	item->setData(m_requester.done(), FinishedRole);
 	item->setData(m_requester.elapsed(), ElapsedRole);
 	item->setData(m_requester.replyHeaders(), HeadersRole);
+	item->setData(m_requester.statusCode(), StatusCodeRole);
+	item->setData(m_requester.statusMessage(), StatusMessageRole);
 
 	m_model->appendRow(item);
 
@@ -164,6 +185,24 @@ void RequestHandler::begin()
 
 	setupRequester();
 	m_requester.start();
+}
+
+void RequestHandler::setTopColor(const QColor &color)
+{
+#ifdef Q_OS_ANDROID
+	QtAndroid::runOnAndroidThread([=]() {
+		QAndroidJniObject window =
+			QtAndroid::androidActivity().callObjectMethod(
+				"getWindow", "()Landroid/view/Window;");
+		window.callMethod<void>("addFlags", "(I)V",
+								FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+		window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_STATUS);
+		window.callMethod<void>("setStatusBarColor", "(I)V", color.rgba());
+		window.callMethod<void>("setNavigationBarColor", "(I)V", color.rgba());
+	});
+#else
+	Q_UNUSED(color)
+#endif
 }
 
 void RequestHandler::setRequestsCount(int requestsCount)
@@ -220,6 +259,22 @@ void RequestHandler::setSingleHeaders(QString singleHeaders)
 
 	m_singleHeaders = singleHeaders;
 	emit singleHeadersChanged(m_singleHeaders);
+}
+
+void RequestHandler::setSingleStatusCode(int singleStatusCode)
+{
+	if (m_singleStatusCode == singleStatusCode) return;
+
+	m_singleStatusCode = singleStatusCode;
+	emit singleStatusCodeChanged(m_singleStatusCode);
+}
+
+void RequestHandler::setSingleStatusMessage(QString singleStatusMessage)
+{
+	if (m_singleStatusMessage == singleStatusMessage) return;
+
+	m_singleStatusMessage = singleStatusMessage;
+	emit singleStatusMessageChanged(m_singleStatusMessage);
 }
 
 int RequestHandler::requestsCount() const { return m_requestsCount; }

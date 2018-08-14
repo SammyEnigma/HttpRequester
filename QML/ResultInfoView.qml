@@ -14,6 +14,8 @@ Page {
 		TabBar {
 			id: tabbar
 			Layout.fillWidth: true
+			currentIndex: done ? 0:3
+			enabled: done
 
 			onCurrentIndexChanged: {
 				if (currentIndex == 0)

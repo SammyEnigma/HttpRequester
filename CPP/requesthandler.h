@@ -11,7 +11,9 @@ enum RequestRoles
 	ElapsedRole = Qt::UserRole + 1,
 	InfoRole = Qt::UserRole + 2,
 	FinishedRole = Qt::UserRole + 3,
-	HeadersRole = Qt::UserRole + 4
+	HeadersRole = Qt::UserRole + 4,
+	StatusCodeRole = Qt::UserRole + 5,
+	StatusMessageRole = Qt::UserRole + 6
 };
 
 class RequestHandler : public QObject
@@ -36,6 +38,10 @@ class RequestHandler : public QObject
 				   NOTIFY singleFinishedChanged)
 	Q_PROPERTY(QString singleHeaders READ singleHeaders WRITE setSingleHeaders
 				   NOTIFY singleHeadersChanged)
+	Q_PROPERTY(int singleStatusCode READ singleStatusCode WRITE
+				   setSingleStatusCode NOTIFY singleStatusCodeChanged)
+	Q_PROPERTY(QString singleStatusMessage READ singleStatusMessage WRITE
+				   setSingleStatusMessage NOTIFY singleStatusMessageChanged)
 
 	Requester m_requester;
 	QmlModel *m_model;
@@ -46,13 +52,16 @@ class RequestHandler : public QObject
 	void setupRequesterHeader();
 	void setupRequesterUrl();
 
+	int m_state;
 	int m_requestsCount;
 	int m_currentRequest;
-	int m_state;
+
 	int m_singleElapsed;
 	QString m_singleInfo;
 	bool m_singleFinished;
 	QString m_singleHeaders;
+	int m_singleStatusCode;
+	QString m_singleStatusMessage;
 
 private slots:
 	void requestDone();
@@ -62,35 +71,45 @@ public:
 
 	explicit RequestHandler(QObject *parent = nullptr);
 
+	int state() const;
 	int requestsCount() const;
 	int currentRequest() const;
-	int state() const;
+
 	int singleElapsed() const;
 	QString singleInfo() const;
 	bool singleFinished() const;
 	QString singleHeaders() const;
+	int singleStatusCode() const;
+	QString singleStatusMessage() const;
 
 	QmlModel *model() const;
 
 public slots:
 	void begin();
+	void setTopColor(const QColor &color);
 
+	void setState(int state);
 	void setRequestsCount(int requestsCount);
 	void setCurrentRequest(int currentRequest);
-	void setState(int state);
+
 	void setSingleElapsed(int singleElapsed);
 	void setSingleInfo(QString singleInfo);
 	void setSingleFinished(bool singleFinished);
 	void setSingleHeaders(QString singleHeaders);
+	void setSingleStatusCode(int singleStatusCode);
+	void setSingleStatusMessage(QString singleStatusMessage);
 
 signals:
+	void stateChanged(int state);
 	void requestsCountChanged(int requestsCount);
 	void currentRequestChanged(int currentRequest);
-	void stateChanged(int state);
+
 	void singleElapsedChanged(int singleElapsed);
 	void singleInfoChanged(QString singleInfo);  // TODO: remove args?
 	void singleFinishedChanged(bool singleFinished);
 	void singleHeadersChanged(QString singleHeaders);
+	void singleStatusCodeChanged(int singleStatusCode);
+	void singleStatusMessageChanged(QString singleStatusMessage);
 };
 
 #endif  // REQUESTHANDLER_H

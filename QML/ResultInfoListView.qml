@@ -17,6 +17,8 @@ Page {
 	property bool done: RequestHandler.singleFinished
 	property int elapsed: RequestHandler.singleElapsed
 	property string headers: RequestHandler.singleHeaders
+	property int statusCode: RequestHandler.singleStatusCode
+	property string statusMessage: RequestHandler.singleStatusMessage
 
 	StackView {
 		id: resultStack
@@ -45,6 +47,8 @@ Page {
 						page.info = infoRole
 						page.done = finishedRole
 						page.headers = headersRole
+						page.statusCode = statusCodeRole
+						page.statusMessage = statusMessageRole
 						resultStack.push(details)
 					}
 

@@ -1,4 +1,5 @@
-QT += quick network quickcontrols2 sql webengine
+QT += quick network quickcontrols2 sql webview
+android: { QT += androidextras }
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use

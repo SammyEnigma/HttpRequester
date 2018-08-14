@@ -25,11 +25,16 @@ ApplicationWindow {
 		property alias darkTheme: w.windowDarkTheme
 		property alias showSplash: w.windowShowSplash
 		property alias themeColor: w.windowThemeColor
+
 	}
 
 	property bool windowDarkTheme: false
 	property bool windowShowSplash: true
-	property string windowThemeColor: "#00bcd4"
+	property color windowThemeColor: "#00bcd4"
+
+	Component.onCompleted: RequestHandler.setTopColor(windowThemeColor)
+	onWindowThemeColorChanged: RequestHandler.setTopColor(windowThemeColor)
+
 
 	Material.accent: Material.primary
 	Material.primary: windowThemeColor

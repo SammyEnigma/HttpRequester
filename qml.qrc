@@ -26,5 +26,8 @@
         <file>QML/ResultHeaderPage.qml</file>
         <file>QML/ResultStatusPage.qml</file>
         <file>QML/ResultWebPage.qml</file>
+        <file>Images/Menu.png</file>
+        <file>Images/Plus.png</file>
+        <file>Images/Back.png</file>
     </qresource>
 </RCC>

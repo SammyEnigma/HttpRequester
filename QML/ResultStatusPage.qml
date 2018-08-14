@@ -7,7 +7,9 @@ ContentFlickerView {
 	property string text: {
 		var answer = "Request Number: " + page.index + "\n"
 		answer += "Time Elapsed: " + page.elapsed/1000 + " Seconds" + "\n"
-		answer += "Request Success: " + (page.done ? "Succcessful":"Failed")
+		answer += "Request Success: " + (page.done ? "Succcessful":"Failed") + "\n"
+		answer += "Status Code: " + (page.done ? page.statusCode:"") + "\n"
+		answer += "Status Message: " + page.statusMessage
 		return answer
 	}
 

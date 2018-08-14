@@ -1,5 +1,5 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.3
 
 import "Tools"
 
@@ -14,9 +14,11 @@ Page {
 
 		ToolButton {
 			id: menuButton
-			text: "⋮"
 			parent: topBar.row
 			font.pointSize: iconFont
+//			text: "M"
+			icon.source: "qrc:/Images/Menu.png"
+
 			onClicked: menu.open()
 
 			Menu {
@@ -45,9 +47,10 @@ Page {
 		}
 
 		ToolButton {
-			text: "+"
 			parent: topBar.row
 			font.pointSize: iconFont
+//			text: "A"
+			icon.source: "qrc:/Images/Plus.png"
 
 			onClicked: {
 				stackView.push(createPage)

@@ -15,10 +15,11 @@ Page {
 		title: "Results"
 
 		ToolButton {
-			text: "➞"
-			rotation: 180
 			parent: topBar.row
 			font.pointSize: iconFont
+//			text: "B"
+			icon.source: "qrc:/Images/Back.png"
+
 			onClicked: stackView.pop()
 		}
 	}

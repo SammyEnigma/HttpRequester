@@ -6,6 +6,7 @@ Requester::Requester(QObject *parent) : QObject(parent)
 	setState(BaseState);
 	m_data = QByteArray();
 	m_elapsed = 0;
+	m_statusCode = -1;
 
 	m_knownHeaders << "Content-Type"
 				   << "Content-Length"
@@ -22,16 +23,26 @@ void Requester::setHeaders(const QHash<QByteArray, QByteArray> &headers)
 
 const QString &Requester::replyHeaders() const { return m_replyHeaders; }
 
+int Requester::statusCode() const { return m_statusCode; }
+
+const QString &Requester::statusMessage() const { return m_statusMessage; }
+
 void Requester::readReply(Reply *R)
 {
 	m_data = R->readAll();
-	m_done = true;
+	m_done = R->error() == Reply::NoError;
 	m_elapsed = m_timer.elapsed();
 
 	m_replyHeaders.clear();
 	for (const auto &P : R->rawHeaderPairs())
 		m_replyHeaders += P.first + ": " + P.second + "\n";
 	m_replyHeaders.remove(m_replyHeaders.size() - 1, 1);
+
+	m_statusCode =
+		R->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
+	m_statusMessage =
+		R->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toByteArray();
 
 	setState(LoadedState);
 }
