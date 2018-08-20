@@ -68,7 +68,11 @@ void Requester::start()
 		m_reply = m_downloader.post(R, Q.toString(QUrl::FullyEncoded).toUtf8());
 	}
 	else if (m_input.requestType == PutRequest)
+	{
+		m_input.putData = "name: 'new product name'";
 		m_downloader.put(R, m_input.putData);
+		qDebug() << "Putting " << m_input.putData;
+	}
 
 	setState(LoadingState);
 	if (m_timer.interval() >= 0) m_timer.start();

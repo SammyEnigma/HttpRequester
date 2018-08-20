@@ -17,10 +17,15 @@ Page {
 		ToolButton {
 			parent: topBar.row
 			font.pointSize: iconFont
-//			text: "B"
+			//			text: "B"
 			icon.source: "qrc:/Images/Back.png"
 
-			onClicked: stackView.pop()
+			onClicked: {
+				if(resultList.resultStack.depth > 1)
+					resultList.resultStack.pop()
+				else
+					stackView.pop()
+			}
 		}
 	}
 
@@ -30,7 +35,7 @@ Page {
 		interactive: false
 
 		ResultStatusView { }
-		ResultInfoListView { }
+		ResultInfoListView { id: resultList }
 	}
 
 	Connections {

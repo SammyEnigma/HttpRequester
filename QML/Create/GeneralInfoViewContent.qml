@@ -30,9 +30,9 @@ ColumnLayout {
 			text: "Url"
 			placeholder: "http://example.com"
 
-			validator: RegExpValidator {
-				regExp: /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
-			}
+//			validator: RegExpValidator {
+//				regExp: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+//			}
 
 			Layout.fillWidth: true
 			enabled: radio1.checked
@@ -57,9 +57,9 @@ ColumnLayout {
 			text: "IP"
 			placeholder: "255.255.255.255"
 
-			validator: RegExpValidator {
-				regExp: /\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d/
-			}
+//			validator: RegExpValidator {
+//				regExp: /\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d/
+//			}
 
 			Layout.rightMargin: 18
 			Layout.fillWidth: true

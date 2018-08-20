@@ -31,7 +31,6 @@ RowLayout {
 				ToolButton {
 					icon.width: 20
 					icon.height: 20
-					icon.color: "transparent"
 					icon.source: "qrc:/Images/Plus.png"
 
 					padding: 0

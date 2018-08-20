@@ -23,6 +23,7 @@ void RequestSaver::saveRequest()
 	auto gid = saveGeneralTable();
 	auto prid = saveProxyTable();
 	savePostTable(rid);
+	saveHeaderTable(rid);
 
 	QString name = !Holder->requestName().isEmpty()
 					   ? Holder->requestName()
@@ -71,6 +72,7 @@ void RequestSaver::loadRequest(int id)
 	loadGeneralTable(gid);
 	loadProxyTable(prid);
 	loadPostTable(rid);
+	loadHeaderTable(rid);
 }
 
 QmlModel *RequestSaver::model() const { return m_model; }
@@ -335,6 +337,8 @@ void RequestSaver::loadHeaderTable(int rid)
 	auto *model = Holder->headerModel();
 	model->clear();
 
+	qDebug() << "Hi";
+
 	while (m_query->next())
 	{
 		auto R = m_query->record();
@@ -346,7 +350,7 @@ void RequestSaver::loadHeaderTable(int rid)
 		model->appendRow(item);
 	}
 
-	Holder->setHasHeader(m_model->rowCount() != 0);
+	Holder->setHasHeader(model->rowCount());
 }
 
 void RequestSaver::fillModel()

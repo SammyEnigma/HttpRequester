@@ -9,6 +9,8 @@ Page {
 	id: page
 	background: Item { }
 
+	property alias resultStack: resultStack
+
 	property int index: 0
 
 	onInfoChanged: RequestSaver.saveToFile(info)
@@ -47,8 +49,8 @@ Page {
 						page.info = infoRole
 						page.done = finishedRole
 						page.headers = headersRole
-						page.statusCode = statusCodeRole
-						page.statusMessage = statusMessageRole
+						page.statusCode = statuscodeRole
+						page.statusMessage = statusmessageRole
 						resultStack.push(details)
 					}
 
