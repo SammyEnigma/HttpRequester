@@ -3,6 +3,8 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.3
 
+import QtQuick.Window 2.3
+
 import "Tools"
 
 Page {
@@ -18,7 +20,7 @@ Page {
 		ToolButton {
 			parent: topBar.row
 			font.pointSize: iconFont
-//			text: "B"
+			//			text: "B"
 			icon.source: "qrc:/Images/Back.png"
 
 			onClicked: stackView.pop()
@@ -26,6 +28,7 @@ Page {
 	}
 
 	ColumnLayout {
+		spacing: 10
 		anchors.fill: parent
 
 		RowLayout {
@@ -44,18 +47,33 @@ Page {
 			}
 		}
 
-		Switch {
-			text: "Dark Theme"
-			Layout.fillWidth: true
-			checked: windowDarkTheme
-			onCheckedChanged: windowDarkTheme = checked
+		RowLayout {
+			Layout.fillHeight: false
+			Switch {
+				text: "Dark Theme"
+				Layout.fillWidth: true
+				checked: windowDarkTheme
+				onCheckedChanged: windowDarkTheme = checked
+			}
+
+			Switch {
+				Layout.fillWidth: true
+				text: "Show Splash Screen"
+				checked: windowShowSplash
+				onCheckedChanged: windowShowSplash = checked
+			}
 		}
 
-		Switch {
-			Layout.fillWidth: true
-			text: "Show Splash Screen"
-			checked: windowShowSplash
-			onCheckedChanged: windowShowSplash = checked
+		Button {
+			Material.background: Material.primary
+			text: "Reset Size and Position of This Window"
+
+			onClicked: {
+				w.width = 640
+				w.height = 480
+				w.x = (Screen.desktopAvailableWidth - w.width) / 2
+				w.y = (Screen.desktopAvailableHeight - w.height) / 2
+			}
 		}
 
 		Item {

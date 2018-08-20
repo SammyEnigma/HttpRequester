@@ -42,15 +42,22 @@ QString RequestHandler::singleStatusMessage() const
 
 QString RequestHandler::singleHeaders() const { return m_singleHeaders; }
 
-void RequestHandler::setupRequester()
+RequesterInput RequestHandler::setupRequester()
 {
-	setupRequesterUrl();
-	setupRequesterPost();
-	setupRequesterProxy();
+	RequesterInput Input;
+
+	setupRequesterUrl(Input);
+	setupRequesterPost(Input);
+	setupRequesterProxy(Input);
+	setupRequesterHeader(Input);
+
+	return Input;
 }
 
-void RequestHandler::setupRequesterProxy()
+void RequestHandler::setupRequesterProxy(RequesterInput &Input)
 {
+	Q_UNUSED(Input);
+
 	Proxy P;
 	if (Holder->proxyType() == 0)
 	{
@@ -64,7 +71,7 @@ void RequestHandler::setupRequesterProxy()
 		P.setType(Proxy::Socks5Proxy);
 
 	P.setHostName(Holder->proxyHost());
-	P.setPort(Holder->proxyHost().toInt());
+	P.setPort(ushort(Holder->proxyHost().toInt()));
 
 	if (Holder->proxyHasUser())
 	{
@@ -75,91 +82,83 @@ void RequestHandler::setupRequesterProxy()
 	m_requester.setProxy(P);
 }
 
-void RequestHandler::setupRequesterPost()
+void RequestHandler::setupRequesterPost(RequesterInput &Input)
 {
-	QHash<QByteArray, QByteArray> hash;
+	QHash<QByteArray, QByteArray> &hash = Input.postData;
+	hash.clear();
+
+	if (Holder->requestType() != PostRequest) return;
+
 	auto *model = Holder->postModel();
-
-	if (!Holder->hasPostData())
-	{
-		m_requester.setPostData(hash);
-		return;
-	}
-
 	for (int i = 0; i < model->rowCount(); ++i)
 	{
 		auto *item = model->item(i);
 		hash[item->data(NameRole).toByteArray()] =
 			item->data(DataRole).toByteArray();
 	}
-
-	m_requester.setPostData(hash);
 }
 
-void RequestHandler::setupRequesterHeader()
+void RequestHandler::setupRequesterHeader(RequesterInput &Input)
 {
-	QHash<QByteArray, QByteArray> hash;
+	QHash<QByteArray, QByteArray> &hash = Input.headers;
+	hash.clear();
+
+	if (!Holder->hasHeader()) return;
+
 	auto *model = Holder->headerModel();
-
-	if (!Holder->hasHeader())
-	{
-		m_requester.setPostData(hash);
-		return;
-	}
-
 	for (int i = 0; i < model->rowCount(); ++i)
 	{
 		auto *item = model->item(i);
 		hash[item->data(NameRole).toByteArray()] =
 			item->data(DataRole).toByteArray();
 	}
-
-	m_requester.setHeaders(hash);
 }
 
-void RequestHandler::setupRequesterUrl()
+void RequestHandler::setupRequesterUrl(RequesterInput &Input)
 {
 	if (!Holder->addressType())
 	{
-		auto url = Holder->addressUrl();
+		QString &url = Input.url;
+		url = Holder->addressUrl();
 		url = url.trimmed();
 
 		if (!url.startsWith("http://") || url.startsWith("https://"))
 			url.prepend("http://");
-
-		m_requester.setUrl(url);
 	}
 	else
-		m_requester.setUrl("http://" + Holder->addressIp() + ":" +
-						   Holder->addressPort() + "/");
+		Input.url =
+			"http://" + Holder->addressIp() + ":" + Holder->addressPort() + "/";
+
+	Input.putData = Holder->putData();
+	Input.requestType = Holder->requestType();
+	m_requester.setTimeout(Holder->requestTimeout() * 1000);
 }
 
 void RequestHandler::requestDone()
 {
 	if (m_requester.state() != LoadedState) return;
+	const auto &Output = m_requester.output();
 
 	if (Holder->requestCount() == 1)
 	{
-		qDebug() << m_requester.done();
-
 		setState(LoadedState);
-		setSingleElapsed(m_requester.elapsed());
-		setSingleFinished(m_requester.done());
-		setSingleInfo(m_requester.data());
-		setSingleHeaders(m_requester.replyHeaders());
-		setSingleStatusCode(m_requester.statusCode());
-		setSingleStatusMessage(m_requester.statusMessage());
+		setSingleInfo(Output.data);
+		setSingleFinished(Output.done);
+		setSingleElapsed(Output.elapsed);
+		setSingleHeaders(Output.replyHeaders);
+		setSingleStatusCode(Output.statusCode);
+		setSingleStatusMessage(Output.statusMessage);
 		return;
 	}
 
 	QStandardItem *item = new QStandardItem();
 
-	item->setData(m_requester.data(), InfoRole);
-	item->setData(m_requester.done(), FinishedRole);
-	item->setData(m_requester.elapsed(), ElapsedRole);
-	item->setData(m_requester.replyHeaders(), HeadersRole);
-	item->setData(m_requester.statusCode(), StatusCodeRole);
-	item->setData(m_requester.statusMessage(), StatusMessageRole);
+	item->setData(Output.data, InfoRole);
+	item->setData(Output.done, FinishedRole);
+	item->setData(Output.elapsed, ElapsedRole);
+	item->setData(Output.replyHeaders, HeadersRole);
+	item->setData(Output.statusCode, StatusCodeRole);
+	item->setData(Output.statusMessage, StatusMessageRole);
 
 	m_model->appendRow(item);
 
@@ -183,7 +182,8 @@ void RequestHandler::begin()
 	setSingleFinished(false);
 	setSingleInfo("");
 
-	setupRequester();
+	auto Input = setupRequester();
+	m_requester.setInput(Input);
 	m_requester.start();
 }
 

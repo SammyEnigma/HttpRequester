@@ -46,11 +46,11 @@ class RequestHandler : public QObject
 	Requester m_requester;
 	QmlModel *m_model;
 
-	void setupRequester();
-	void setupRequesterProxy();
-	void setupRequesterPost();
-	void setupRequesterHeader();
-	void setupRequesterUrl();
+	RequesterInput setupRequester();
+	void setupRequesterProxy(RequesterInput &Input);
+	void setupRequesterPost(RequesterInput &Input);
+	void setupRequesterHeader(RequesterInput &Input);
+	void setupRequesterUrl(RequesterInput &Input);
 
 	int m_state;
 	int m_requestsCount;

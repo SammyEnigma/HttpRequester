@@ -11,7 +11,10 @@
 #include <QObject>
 #include <QStandardItem>
 #include <QTime>
+#include <QTimer>
 #include <QUrlQuery>
+
+#include "structs.h"
 
 using Downloader = QNetworkAccessManager;
 using Request = QNetworkRequest;
@@ -30,26 +33,19 @@ class Requester : public QObject
 {
 	Q_OBJECT
 
-	int m_timeout;
-	QString m_url;
-	QStringList m_knownHeaders;
-	QHash<QByteArray, QByteArray> m_headers;
-	QHash<QByteArray, QByteArray> m_postData;
-
-	Downloader m_downloader;
-
-	bool m_done;  // true for success. false for failure
+	QTime m_time;
 	State m_state;
-	QTime m_timer;
-	int m_elapsed;
+	QTimer m_timer;
 
-	int m_statusCode;
-	QString m_statusMessage;
+	Reply *m_reply;
+	Downloader m_downloader;
+	QStringList m_knownHeaders;
 
-	QByteArray m_data;
-	QString m_replyHeaders;
+	RequesterInput m_input;
+	RequesterOutput m_output;
 
 private slots:
+	void cancelRequest();
 	void readReply(Reply *R);
 
 public:
@@ -58,20 +54,12 @@ public:
 	void start();
 	void fixHeaders(Request &request);
 
-	bool done() const;
 	State state() const;
-	int elapsed() const;
-	const QByteArray &data() const;
-	const QString &replyHeaders() const;
-
-	int statusCode() const;
-	const QString &statusMessage() const;
-
 	void setTimeout(int timeout);
-	void setUrl(const QString &url);
 	void setProxy(const Proxy &proxy);
-	void setHeaders(const QHash<QByteArray, QByteArray> &headers);
-	void setPostData(const QHash<QByteArray, QByteArray> &postData);
+
+	const RequesterOutput &output() const;
+	void setInput(const RequesterInput &input);
 
 signals:
 	void stateChanged(State state);

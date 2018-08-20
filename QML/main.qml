@@ -4,6 +4,8 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Window 2.2
 import Qt.labs.settings 1.0
 
+import QtQuick.Window 2.3
+
 ApplicationWindow {
 	id: w
 	visible: true
@@ -25,16 +27,14 @@ ApplicationWindow {
 		property alias darkTheme: w.windowDarkTheme
 		property alias showSplash: w.windowShowSplash
 		property alias themeColor: w.windowThemeColor
-
 	}
 
 	property bool windowDarkTheme: false
 	property bool windowShowSplash: true
-	property color windowThemeColor: "#00bcd4"
+	property string windowThemeColor: "#00bcd4"
 
 	Component.onCompleted: RequestHandler.setTopColor(windowThemeColor)
 	onWindowThemeColorChanged: RequestHandler.setTopColor(windowThemeColor)
-
 
 	Material.accent: Material.primary
 	Material.primary: windowThemeColor
@@ -46,6 +46,8 @@ ApplicationWindow {
 
 		if (addPostDialog.visible)
 			addPostDialog.close()
+		if (addHeaderDialog.visible)
+			addHeaderDialog.close()
 		else if (name != "Splash" && name != "Main")
 		{
 			stackView.pop()
@@ -93,6 +95,11 @@ ApplicationWindow {
 
 	AddPostDialog {
 		id: addPostDialog
+		modal: true
+	}
+
+	AddHeaderDialog {
+		id: addHeaderDialog
 		modal: true
 	}
 }

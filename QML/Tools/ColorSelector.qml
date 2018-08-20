@@ -7,11 +7,12 @@ Control {
 	leftPadding: 12
 	rightPadding: 12
 
-	property var colors:
-		["#ffc107", "#2196f3", "#607d8b", "#795548", "#00bcd4", "#ff5722",
+	property var colors: [
+		"#ffc107", "#2196f3", "#607d8b", "#795548", "#00bcd4", "#ff5722",
 		"#673ab7", "#4caf50", "#9e9e9e", "#3f51b5", "#03a9f4", "#8bc34a",
 		"#cddc39", "#ff9800", "#e91e63", "#9c27b0", "#f44336", "#009688",
-		"#ffeb3b"]
+		"#ffeb3b"
+	]
 
 	property color currentColor: colors[currentIndex]
 	property alias currentIndex: pathview.currentIndex

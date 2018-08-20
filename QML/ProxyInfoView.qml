@@ -10,141 +10,19 @@ Page {
 	rightPadding: 18
 	background: Item { }
 
-	ButtonGroup {
-		buttons: row.children
-		property int currentIndex: RequestHolder.proxyType
+	contentItem: Flickable {
+		clip: true
+		contentWidth: width
+		contentHeight: control.height
 
-		onCheckedButtonChanged: {
-			if (checkedButton == radio1)
-				currentIndex = 0
-			else if (checkedButton == radio2)
-				currentIndex = 1
-			else if (checkedButton == radio3)
-				currentIndex = 2
-		}
+		ScrollBar.vertical: ScrollBar { }
 
-		onCurrentIndexChanged: {
-			if (currentIndex == 0)
-				radio1.checked = true
-			else if (currentIndex == 1)
-				radio2.checked = true
-			else if (currentIndex == 2)
-				radio3.checked = true
-		}
-	}
-
-	contentItem: ColumnLayout {
-		ColumnLayout {
-			Layout.fillHeight: false
-
-			Label {
-				text: "Type"
-				font.pointSize: mediumFont
-			}
-
-			RowLayout {
-				id: row
-				Layout.leftMargin: 12
-				Layout.fillHeight: false
-
-				RadioButton {
-					id: radio1
-					text: "No Proxy"
-					checked: true
-				}
-
-				RadioButton {
-					id: radio2
-					text: "Http Proxy"
-				}
-
-				RadioButton {
-					id: radio3
-					text: "Socks5 Proxy"
-				}
-			}
-		}
-
-		ColumnLayout {
-			Layout.fillHeight: false
-
-			Label {
-				text: "Information"
-				font.pointSize: mediumFont
-			}
-
-			ColumnLayout {
-				Layout.leftMargin: 12
-				Layout.fillHeight: false
-
-				RowLayout {
-					spacing: 18
-					Layout.fillHeight: false
-
-					InsertField {
-						text: "Host"
-						Layout.fillWidth: true
-						placeholder: "255.255.255.255"
-						value: RequestHolder.proxyHost
-						onValueChanged: RequestHolder.proxyHost = value
-
-						validator: RegExpValidator {
-							regExp: /\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d/
-						}
-					}
-
-					InsertField {
-						text: "Port"
-						placeholder: "8080"
-						Layout.fillWidth: true
-						value: RequestHolder.proxyPort
-						onValueChanged: RequestHolder.proxyPort = value
-
-						validator: IntValidator {
-							top: 65535
-							bottom: 0
-						}
-					}
-				}
-
-				CheckBox {
-					id: checkbox1
-					leftPadding: 0
-					bottomPadding: 0
-					text: "Has Usernames"
-					checked: RequestHolder.proxyHasUser
-					onCheckedChanged: RequestHolder.proxyHasUser = checked
-				}
-
-				RowLayout {
-					spacing: 18
-					Layout.leftMargin: 12
-					Layout.fillHeight: false
-
-					InsertField {
-						text: "Username"
-						placeholder: "someone"
-						Layout.fillWidth: true
-						enabled: checkbox1.checked
-						value: RequestHolder.proxyUsername
-						onValueChanged: RequestHolder.proxyUsername = value
-					}
-
-					InsertField {
-						text: "Password"
-						placeholder: "something"
-						Layout.fillWidth: true
-						enabled: checkbox1.checked
-						value: RequestHolder.proxyPassword
-						onValueChanged: RequestHolder.proxyPassword = value
-					}
-				}
-			}
-		}
-
-		Item {
-			Layout.fillWidth: true
-			Layout.fillHeight: true
+		Control {
+			id: control
+			padding: 12
+			rightPadding: 18
+			width: parent.width
+			contentItem: ProxyInfoViewContent { }
 		}
 	}
 }

@@ -115,7 +115,8 @@ void RequestSaver::createTables()
 
 	x = m_query->exec(
 		"CREATE TABLE IF NOT EXISTS general("
-		"name STRING, desc STRING, count INTEGER, timeout INTEGER);");
+		"name STRING, desc STRING, count INTEGER, "
+		"timeout INTEGER, rtype INTEGER, putdata STRING);");
 	if (!x) qDebug() << "Couldn't Create General Table;";
 
 	x = m_query->exec(
@@ -145,48 +146,54 @@ void RequestSaver::createDatabase()
 int RequestSaver::saveRequestTable()
 {
 	m_query->prepare("INSERT INTO request VALUES(?, ?, ?, ?);");
+
 	m_query->bindValue(0, Holder->addressType());
 	m_query->bindValue(1, Holder->addressUrl());
 	m_query->bindValue(2, Holder->addressIp());
 	m_query->bindValue(3, Holder->addressPort());
-	qDebug() << m_query->exec();
 
+	qDebug() << m_query->exec();
 	return m_query->lastInsertId().toInt();
 }
 
 int RequestSaver::saveGeneralTable()
 {
-	m_query->prepare("INSERT INTO general VALUES(?, ?, ?, ?);");
+	m_query->prepare("INSERT INTO general VALUES(?, ?, ?, ?, ?, ?);");
+
 	m_query->bindValue(0, Holder->requestName());
 	m_query->bindValue(1, Holder->requestDescription());
 	m_query->bindValue(2, Holder->requestCount());
 	m_query->bindValue(3, Holder->requestTimeout());
-	qDebug() << m_query->exec();
+	m_query->bindValue(4, Holder->requestType());
+	m_query->bindValue(5, Holder->putData());
 
+	qDebug() << m_query->exec();
 	return m_query->lastInsertId().toInt();
 }
 
 int RequestSaver::saveProxyTable()
 {
 	m_query->prepare("INSERT INTO proxy VALUES(?, ?, ?, ?, ?, ?);");
+
 	m_query->bindValue(0, Holder->proxyType());
 	m_query->bindValue(1, Holder->proxyHost());
 	m_query->bindValue(2, Holder->proxyPort());
 	m_query->bindValue(3, Holder->proxyHasUser());
 	m_query->bindValue(4, Holder->proxyUsername());
 	m_query->bindValue(5, Holder->proxyPassword());
-	qDebug() << m_query->exec();
 
+	qDebug() << m_query->exec();
 	return m_query->lastInsertId().toInt();
 }
 
 void RequestSaver::saveHeaderTable(int rid)
 {
+	auto *model = Holder->headerModel();
+	if (!model->rowCount()) return;
+
 	QVariantList rids;
 	QVariantList keys;
 	QVariantList values;
-
-	auto *model = Holder->headerModel();
 
 	for (int i = 0; i < model->rowCount(); ++i)
 	{
@@ -273,6 +280,8 @@ void RequestSaver::loadGeneralTable(int gid)
 	Holder->setRequestDescription(R.value("desc").toString());
 	Holder->setRequestCount(R.value("count").toInt());
 	Holder->setRequestTimeout(R.value("timeout").toInt());
+	Holder->setRequestType(R.value("rtype").toInt());
+	Holder->setPutData(R.value("putdata").toByteArray());
 }
 
 void RequestSaver::loadProxyTable(int pid)
@@ -315,8 +324,6 @@ void RequestSaver::loadPostTable(int rid)
 
 		model->appendRow(item);
 	}
-
-	Holder->setHasPostData(model->rowCount() != 0);
 }
 
 void RequestSaver::loadHeaderTable(int rid)

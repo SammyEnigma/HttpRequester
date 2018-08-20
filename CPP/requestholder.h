@@ -3,6 +3,7 @@
 
 #include "model.h"
 
+#include <QFile>
 #include <QObject>
 
 enum PostRoles
@@ -27,8 +28,8 @@ class RequestHolder : public QObject
 	Q_PROPERTY(QString addressPort READ addressPort WRITE setAddressPort NOTIFY
 				   addressPortChanged)
 
-	Q_PROPERTY(bool hasPostData READ hasPostData WRITE setHasPostData NOTIFY
-				   hasPostDataChanged)
+	Q_PROPERTY(int requestType READ requestType WRITE setRequestType NOTIFY
+				   requestTypeChanged)
 
 	Q_PROPERTY(
 		int proxyType READ proxyType WRITE setProxyType NOTIFY proxyTypeChanged)
@@ -63,6 +64,9 @@ class RequestHolder : public QObject
 	Q_PROPERTY(bool hasHeader READ hasHeader WRITE setHasHeader NOTIFY
 				   hasHeaderChanged)
 
+	Q_PROPERTY(
+		QByteArray putData READ putData WRITE setPutData NOTIFY putDataChanged)
+
 	QmlModel *m_postModel;
 	QmlModel *m_headerModel;
 
@@ -70,7 +74,6 @@ class RequestHolder : public QObject
 	QString m_addressUrl;
 	QString m_addressIp;
 	QString m_addressPort;
-	bool m_hasPostData;
 	int m_proxyType;
 	QString m_proxyHost;
 	QString m_proxyPort;
@@ -81,8 +84,9 @@ class RequestHolder : public QObject
 	QString m_requestName;
 	QString m_requestDescription;
 	bool m_proxyHasUser;
-
 	bool m_hasHeader;
+	int m_requestType;
+	QByteArray m_putData;
 
 public:
 	explicit RequestHolder(QObject *parent = nullptr);
@@ -94,7 +98,6 @@ public:
 	QString addressUrl() const;
 	QString addressIp() const;
 	QString addressPort() const;
-	bool hasPostData() const;
 	int proxyType() const;
 	QString proxyHost() const;
 	QString proxyPort() const;
@@ -106,6 +109,8 @@ public:
 	QString requestDescription() const;
 	bool proxyHasUser() const;
 	bool hasHeader() const;
+	int requestType() const;
+	QByteArray putData() const;
 
 public slots:
 	void reset();
@@ -115,11 +120,12 @@ public slots:
 	void removeHeader(int index);
 	void addHeader(const QString &key, const QString &value);
 
+	void readPutDataFromFile(QString file);
+
 	void setAddressType(bool addressType);
 	void setAddressUrl(const QString &addressUrl);
 	void setAddressIp(const QString &addressIp);
 	void setAddressPort(const QString &addressPort);
-	void setHasPostData(bool hasPostData);
 	void setProxyType(int proxyType);
 	void setProxyHost(const QString &proxyHost);
 	void setProxyPort(const QString &proxyPort);
@@ -131,13 +137,14 @@ public slots:
 	void setRequestDescription(QString requestDescription);
 	void setProxyHasUser(bool proxyHasUser);
 	void setHasHeader(bool hasHeader);
+	void setRequestType(int requestType);
+	void setPutData(const QByteArray &putData);
 
 signals:
 	void addressTypeChanged(bool addressType);
 	void addressUrlChanged(QString addressUrl);
 	void addressIpChanged(QString addressIp);
 	void addressPortChanged(QString addressPort);
-	void hasPostDataChanged(bool hasPostData);
 	void proxyTypeChanged(int proxyType);
 	void proxyHostChanged(QString proxyHost);
 	void proxyPortChanged(QString proxyPort);
@@ -149,6 +156,8 @@ signals:
 	void requestDescriptionChanged(QString requestDescription);
 	void proxyHasUserChanged(bool proxyHasUser);
 	void hasHeaderChanged(bool hasHeader);
+	void requestTypeChanged(int requestType);
+	void putDataChanged(QByteArray putData);
 };
 
 #endif  // REQUESTHOLDER_H

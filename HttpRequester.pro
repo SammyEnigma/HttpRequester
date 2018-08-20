@@ -37,7 +37,8 @@ HEADERS += \
     CPP/requesthandler.h \
     CPP/requestholder.h \
     CPP/requestsaver.h \
-    CPP/requester.h
+    CPP/requester.h \
+    CPP/structs.h
 
 DISTFILES +=
 

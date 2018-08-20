@@ -19,7 +19,6 @@
         <file>QML/ThemePage.qml</file>
         <file>QML/Tools/ColorSelector.qml</file>
         <file>QML/AddPostDialog.qml</file>
-        <file>QML/Tools/AddHeaderDialog.qml</file>
         <file>QML/ResultInfoListView.qml</file>
         <file>QML/ContentFlickerView.qml</file>
         <file>QML/ResultDataPage.qml</file>
@@ -29,5 +28,10 @@
         <file>Images/Menu.png</file>
         <file>Images/Plus.png</file>
         <file>Images/Back.png</file>
+        <file>QML/Tools/KeyValueFrame.qml</file>
+        <file>QML/AddHeaderDialog.qml</file>
+        <file>QML/RequestInfoViewContent.qml</file>
+        <file>QML/GeneralInfoViewContent.qml</file>
+        <file>QML/ProxyInfoViewContent.qml</file>
     </qresource>
 </RCC>

@@ -19,7 +19,7 @@ Page {
 		ToolButton {
 			parent: topBar.row
 			font.pointSize: iconFont
-//			text: "B"
+			//			text: "B"
 			icon.source: "qrc:/Images/Back.png"
 
 			onClicked: stackView.pop()
@@ -64,11 +64,11 @@ Page {
 			currentIndex: swipeView.currentIndex
 
 			TabButton {
-				text: "Request"
+				text: "General"
 			}
 
 			TabButton {
-				text: "General"
+				text: "Request"
 			}
 
 			TabButton {
@@ -88,8 +88,8 @@ Page {
 			Layout.fillHeight: true
 			currentIndex: tabBar.currentIndex
 
-			RequstInfoView { }
 			GeneralInfoView { }
+			RequstInfoView { }
 			ProxyInfoView { }
 		}
 	}

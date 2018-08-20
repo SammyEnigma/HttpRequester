@@ -1,4 +1,5 @@
 #include "requestholder.h"
+#include <QtDebug>
 
 QmlModel *RequestHolder::headerModel() const { return m_headerModel; }
 
@@ -43,14 +44,6 @@ void RequestHolder::setAddressPort(const QString &addressPort)
 
 	m_addressPort = addressPort;
 	emit addressPortChanged(m_addressPort);
-}
-
-void RequestHolder::setHasPostData(bool hasPostData)
-{
-	if (m_hasPostData == hasPostData) return;
-
-	m_hasPostData = hasPostData;
-	emit hasPostDataChanged(m_hasPostData);
 }
 
 void RequestHolder::setProxyType(int proxyType)
@@ -133,6 +126,22 @@ void RequestHolder::setHasHeader(bool hasHeader)
 	emit hasHeaderChanged(m_hasHeader);
 }
 
+void RequestHolder::setRequestType(int requestType)
+{
+	if (m_requestType == requestType) return;
+
+	m_requestType = requestType;
+	emit requestTypeChanged(m_requestType);
+}
+
+void RequestHolder::setPutData(const QByteArray &putData)
+{
+	if (m_putData == putData) return;
+
+	m_putData = putData;
+	emit putDataChanged(m_putData);
+}
+
 void RequestHolder::setRequestName(QString requestName)
 {
 	if (m_requestName == requestName) return;
@@ -147,18 +156,18 @@ void RequestHolder::reset()
 	setAddressUrl("");
 	setAddressIp("");
 	setAddressPort("");
-	setHasPostData(false);
 	setProxyType(0);
 	setProxyHost("");
 	setProxyPort("");
 	setProxyUsername("");
 	setProxyPassword("");
 	setRequestCount(1);
-	setRequestTimeout(30);
+	setRequestTimeout(-1);
 	setRequestName("");
 	setRequestDescription("");
 	setProxyHasUser(false);
 	setHasHeader(false);
+	setRequestType(0);
 }
 
 void RequestHolder::removePostParameter(int index)
@@ -184,6 +193,17 @@ void RequestHolder::addHeader(const QString &key, const QString &value)
 	m_headerModel->appendRow(item);
 }
 
+void RequestHolder::readPutDataFromFile(QString file)
+{
+	file.remove("file://");
+	qDebug() << file;
+	QFile F(file);
+	auto x = F.open(QIODevice::ReadOnly);
+	if (!x) return;
+
+	setPutData(F.readAll());
+}
+
 QString RequestHolder::requestDescription() const
 {
 	return m_requestDescription;
@@ -192,12 +212,16 @@ QString RequestHolder::requestDescription() const
 bool RequestHolder::proxyHasUser() const { return m_proxyHasUser; }
 
 bool RequestHolder::hasHeader() const { return m_hasHeader; }
+
+int RequestHolder::requestType() const { return m_requestType; }
+
+QByteArray RequestHolder::putData() const { return m_putData; }
+
 QmlModel *RequestHolder::postModel() const { return m_postModel; }
 bool RequestHolder::addressType() const { return m_addressType; }
 QString RequestHolder::addressUrl() const { return m_addressUrl; }
 QString RequestHolder::addressIp() const { return m_addressIp; }
 QString RequestHolder::addressPort() const { return m_addressPort; }
-bool RequestHolder::hasPostData() const { return m_hasPostData; }
 int RequestHolder::proxyType() const { return m_proxyType; }
 QString RequestHolder::proxyHost() const { return m_proxyHost; }
 QString RequestHolder::proxyPort() const { return m_proxyPort; }

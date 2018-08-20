@@ -49,7 +49,7 @@ Item {
 		}
 
 		Button {
-			text: "New Request"
+			text: "Make A New Request"
 			Layout.fillWidth: true
 			Material.background: Material.primary
 

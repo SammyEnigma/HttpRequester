@@ -14,8 +14,7 @@ Page {
 		TabBar {
 			id: tabbar
 			Layout.fillWidth: true
-			currentIndex: done ? 0:3
-			enabled: done
+			currentIndex: done ? (page.info ? 0:2):3
 
 			onCurrentIndexChanged: {
 				if (currentIndex == 0)
@@ -30,14 +29,17 @@ Page {
 
 			TabButton {
 				text: "Data"
+				enabled: done && page.info
 			}
 
 			TabButton {
 				text: "Browser"
+				enabled: done && page.info
 			}
 
 			TabButton {
 				text: "Headers"
+				enabled: done
 			}
 
 			TabButton {
@@ -54,7 +56,7 @@ Page {
 
 	contentItem: StackView {
 		id: stack
-		initialItem: dataView
+//		initialItem: dataView
 
 		Component {
 			id: dataView
