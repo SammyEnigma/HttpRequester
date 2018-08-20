@@ -3,22 +3,16 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 
+import "../Tools"
+
 ContentFlickerView {
-	property string text: {
-		var answer = "Request Number: " + page.index + "\n"
-		answer += "Time Elapsed: " + page.elapsed/1000 + " Seconds" + "\n"
-		answer += "Request Success: " + (page.done ? "Succcessful":"Failed") + "\n"
-		answer += "Status Code: " + (page.done ? page.statusCode:"") + "\n"
-		answer += "Status Message: " + page.statusMessage
-		return answer
-	}
 
 	label: Column {
 		spacing: 6
 
 		Repeater {
 			model: {
-				var a = text.split('\n')
+				var a = page.headers.split('\n')
 				a.sort()
 				return a
 			}

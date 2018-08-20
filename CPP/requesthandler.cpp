@@ -178,9 +178,15 @@ void RequestHandler::begin()
 	setRequestsCount(Holder->requestCount());
 	setCurrentRequest(0);
 
+	setSingleHeaders("");
+	setSingleStatusCode(-1);
+	setSingleStatusMessage("");
+
+	setSingleInfo("");
 	setSingleElapsed(0);
 	setSingleFinished(false);
-	setSingleInfo("");
+
+	m_model->clear();
 
 	auto Input = setupRequester();
 	m_requester.setInput(Input);

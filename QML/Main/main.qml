@@ -6,6 +6,9 @@ import Qt.labs.settings 1.0
 
 import QtQuick.Window 2.3
 
+import "../Create"
+import "../Result"
+
 ApplicationWindow {
 	id: w
 	visible: true

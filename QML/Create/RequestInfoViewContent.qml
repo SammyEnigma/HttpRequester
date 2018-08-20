@@ -4,7 +4,7 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 
-import "Tools"
+import "../Tools"
 
 ColumnLayout {
 	spacing: 10

@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 
 import QtQuick.Window 2.3
 
-import "Tools"
+import "../Tools"
 
 Page {
 	id: page

@@ -2,10 +2,12 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 
-import "Tools"
+import "../Tools"
 
 Page {
 	id: page
+	padding: 12
+		rightPadding: 18
 	background: Item { }
 
 	contentItem: Flickable {
@@ -20,7 +22,7 @@ Page {
 			padding: 12
 			rightPadding: 18
 			width: parent.width
-			contentItem: RequestInfoViewContent { }
+			contentItem: GeneralInfoViewContent { }
 		}
 	}
 }
