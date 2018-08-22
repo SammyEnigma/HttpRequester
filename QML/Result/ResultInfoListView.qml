@@ -22,10 +22,14 @@ Page {
 	property int statusCode: RequestHandler.singleStatusCode
 	property string statusMessage: RequestHandler.singleStatusMessage
 
+	Connections {
+		target: RequestHandler
+		onStateChanged: if (state != 1) resultStack.push(RequestHandler.requestsCount == 1 ? details:listView);
+	}
+
 	StackView {
 		id: resultStack
 		anchors.fill: parent
-		initialItem: RequestHandler.requestsCount == 1 ? details:listView
 
 		Component {
 			id: listView

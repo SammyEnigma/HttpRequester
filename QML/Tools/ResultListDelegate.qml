@@ -19,7 +19,7 @@ ItemDelegate {
 		}
 
 		Label {
-			text: elapsed/1000 + " Seconds"
+			text: (elapsed/1000).toFixed(3) + " Seconds"
 		}
 
 		Label {

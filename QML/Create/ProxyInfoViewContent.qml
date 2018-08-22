@@ -44,17 +44,22 @@ ColumnLayout {
 			RadioButton {
 				id: radio1
 				text: "No Proxy"
-				checked: true
+				checked: RequestHolder.proxyType == 0
+				onCheckedChanged: if (checked) RequestHolder.proxyType = 0
 			}
 
 			RadioButton {
 				id: radio2
 				text: "Http Proxy"
+				checked: RequestHolder.proxyType == 1
+				onCheckedChanged: if (checked) RequestHolder.proxyType = 1
 			}
 
 			RadioButton {
 				id: radio3
 				text: "Socks5 Proxy"
+				checked: RequestHolder.proxyType == 2
+				onCheckedChanged: if (checked) RequestHolder.proxyType = 2
 			}
 		}
 	}

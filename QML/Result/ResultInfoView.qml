@@ -14,36 +14,29 @@ Page {
 		TabBar {
 			id: tabbar
 			Layout.fillWidth: true
-			currentIndex: done ? (page.info ? 0:2):3
-
-			onCurrentIndexChanged: {
-				if (currentIndex == 0)
-					stack.replace(dataView)
-				else if (currentIndex == 1)
-					stack.replace(webView)
-				else if (currentIndex == 2)
-					stack.replace(headerView)
-				else if (currentIndex == 3)
-					stack.replace(statusView)
-			}
+			currentIndex: page.done ? (page.info ? 0:2):3
 
 			TabButton {
 				text: "Data"
 				enabled: done && page.info
+				onClicked: if (tabbar.currentIndex != 0) stack.replace(dataView)
 			}
 
 			TabButton {
 				text: "Browser"
 				enabled: done && page.info
+				onClicked: stack.replace(webView)
 			}
 
 			TabButton {
 				text: "Headers"
 				enabled: done
+				onClicked: stack.replace(headerView)
 			}
 
 			TabButton {
 				text: "Request Info"
+				onClicked: stack.replace(statusView)
 			}
 		}
 
@@ -56,7 +49,10 @@ Page {
 
 	contentItem: StackView {
 		id: stack
-//		initialItem: dataView
+		initialItem: {
+			print(page.done)
+			page.done ? (page.info ? dataView:headerView):statusView
+		}
 
 		Component {
 			id: dataView

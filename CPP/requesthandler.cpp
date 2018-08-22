@@ -71,7 +71,7 @@ void RequestHandler::setupRequesterProxy(RequesterInput &Input)
 		P.setType(Proxy::Socks5Proxy);
 
 	P.setHostName(Holder->proxyHost());
-	P.setPort(ushort(Holder->proxyHost().toInt()));
+	P.setPort(ushort(Holder->proxyPort().toInt()));
 
 	if (Holder->proxyHasUser())
 	{
@@ -141,13 +141,13 @@ void RequestHandler::requestDone()
 
 	if (Holder->requestCount() == 1)
 	{
-		setState(LoadedState);
 		setSingleInfo(Output.data);
 		setSingleFinished(Output.done);
 		setSingleElapsed(Output.elapsed);
 		setSingleHeaders(Output.replyHeaders);
 		setSingleStatusCode(Output.statusCode);
 		setSingleStatusMessage(Output.statusMessage);
+		setState(LoadedState);
 		return;
 	}
 
