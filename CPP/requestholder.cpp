@@ -196,7 +196,6 @@ void RequestHolder::addHeader(const QString &key, const QString &value)
 void RequestHolder::readPutDataFromFile(QString file)
 {
 	file.remove("file://");
-	qDebug() << file;
 	QFile F(file);
 	auto x = F.open(QIODevice::ReadOnly);
 	if (!x) return;

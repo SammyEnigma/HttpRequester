@@ -11,7 +11,6 @@ Page {
 	id: page
 	objectName: "Theme"
 	background: Item { }
-	padding: 20
 
 	header: TopBar {
 		id: topBar
@@ -27,58 +26,71 @@ Page {
 		}
 	}
 
-	ColumnLayout {
-		spacing: 10
-		anchors.fill: parent
+	contentItem: Flickable {
+		clip: true
+		contentWidth: width
+		contentHeight: control.height
 
-		RowLayout {
-			spacing: 18
-			Layout.fillHeight: false
+		ScrollBar.vertical: ScrollBar { }
 
-			Label {
-				leftPadding: 6
-				text: "Theme Color"
+		Control {
+			id: control
+			padding: 20
+			width: parent.width
+
+			contentItem: ColumnLayout {
+				spacing: 10
+
+				RowLayout {
+					spacing: 18
+					Layout.fillHeight: false
+
+					Label {
+						leftPadding: 6
+						text: "Theme Color"
+					}
+
+					ColorSelector {
+						Layout.fillWidth: true
+						currentIndex: colors.indexOf(windowThemeColor)
+						onCurrentColorChanged: windowThemeColor = currentColor
+					}
+				}
+
+				RowLayout {
+					Layout.fillHeight: false
+					Switch {
+						text: "Dark Theme"
+						Layout.fillWidth: true
+						checked: windowDarkTheme
+						onCheckedChanged: windowDarkTheme = checked
+					}
+
+					Switch {
+						Layout.fillWidth: true
+						text: "Show Splash Screen"
+						checked: windowShowSplash
+						onCheckedChanged: windowShowSplash = checked
+					}
+				}
+
+				Button {
+					Material.background: Material.primary
+					text: "Reset Size and Position of This Window"
+
+					onClicked: {
+						w.width = 640
+						w.height = 480
+						w.x = (Screen.desktopAvailableWidth - w.width) / 2
+						w.y = (Screen.desktopAvailableHeight - w.height) / 2
+					}
+				}
+
+				Item {
+					Layout.fillWidth: true
+					Layout.fillHeight: true
+				}
 			}
-
-			ColorSelector {
-				Layout.fillWidth: true
-				currentIndex: colors.indexOf(windowThemeColor)
-				onCurrentColorChanged: windowThemeColor = currentColor
-			}
-		}
-
-		RowLayout {
-			Layout.fillHeight: false
-			Switch {
-				text: "Dark Theme"
-				Layout.fillWidth: true
-				checked: windowDarkTheme
-				onCheckedChanged: windowDarkTheme = checked
-			}
-
-			Switch {
-				Layout.fillWidth: true
-				text: "Show Splash Screen"
-				checked: windowShowSplash
-				onCheckedChanged: windowShowSplash = checked
-			}
-		}
-
-		Button {
-			Material.background: Material.primary
-			text: "Reset Size and Position of This Window"
-
-			onClicked: {
-				w.width = 640
-				w.height = 480
-				w.x = (Screen.desktopAvailableWidth - w.width) / 2
-				w.y = (Screen.desktopAvailableHeight - w.height) / 2
-			}
-		}
-
-		Item {
-			Layout.fillWidth: true
-			Layout.fillHeight: true
 		}
 	}
 }

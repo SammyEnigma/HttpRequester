@@ -9,7 +9,16 @@ RequestSaver::RequestSaver(QObject *parent) : QObject(parent)
 		{Add(IDRole), Add(TitleRole), Add(DescRole), Add(TimeRole)});
 
 	// TODO correct this
-	m_databasePath = "DB";
+
+	auto sep = QDir::separator();
+	auto dataPath = QSP::writableLocation(QSP::AppDataLocation);
+
+	if (!QDir(dataPath).exists() && !QDir().mkdir(dataPath))
+		qCritical() << "failed to create data directory";
+
+	m_tempDir = dataPath;
+	m_databasePath = dataPath + sep + "database";
+
 	createDatabase();
 	createTables();
 	fillModel();
@@ -39,7 +48,7 @@ void RequestSaver::saveRequest()
 	m_query->bindValue(2, gid);
 	m_query->bindValue(3, prid);
 	m_query->bindValue(4, epoch);
-	qDebug() << m_query->exec();
+	m_query->exec();
 
 	auto id = m_query->lastInsertId().toInt();
 	auto time = QDateTime::fromSecsSinceEpoch(epoch).toString();
@@ -55,7 +64,7 @@ void RequestSaver::loadRequest(int id)
 {
 	m_query->prepare("SELECT * FROM main WHERE rowid=?;");
 	m_query->bindValue(0, id);
-	qDebug() << m_query->exec();
+	m_query->exec();
 
 	if (!m_query->first())
 	{
@@ -79,9 +88,7 @@ QmlModel *RequestSaver::model() const { return m_model; }
 
 QString RequestSaver::tempFilePath()
 {
-	auto path = QSP::writableLocation(QSP::TempLocation);
-	if (path.isEmpty()) path = QSP::writableLocation(QSP::DataLocation);
-
+	auto path = m_tempDir;
 	auto sep = QDir::separator();
 	if (!path.endsWith(sep)) path += sep;
 
@@ -93,7 +100,7 @@ void RequestSaver::saveToFile(const QString &content)
 {
 	QFile F(tempFilePath());
 	auto x = F.open(QIODevice::WriteOnly);
-	qDebug() << x;
+	if (!x) qDebug() << "Failed to open file for writing";
 
 	F.write(content.toUtf8());
 	F.flush();
@@ -154,7 +161,7 @@ int RequestSaver::saveRequestTable()
 	m_query->bindValue(2, Holder->addressIp());
 	m_query->bindValue(3, Holder->addressPort());
 
-	qDebug() << m_query->exec();
+	m_query->exec();
 	return m_query->lastInsertId().toInt();
 }
 
@@ -169,7 +176,7 @@ int RequestSaver::saveGeneralTable()
 	m_query->bindValue(4, Holder->requestType());
 	m_query->bindValue(5, Holder->putData());
 
-	qDebug() << m_query->exec();
+	m_query->exec();
 	return m_query->lastInsertId().toInt();
 }
 
@@ -184,7 +191,7 @@ int RequestSaver::saveProxyTable()
 	m_query->bindValue(4, Holder->proxyUsername());
 	m_query->bindValue(5, Holder->proxyPassword());
 
-	qDebug() << m_query->exec();
+	m_query->exec();
 	return m_query->lastInsertId().toInt();
 }
 
@@ -206,15 +213,15 @@ void RequestSaver::saveHeaderTable(int rid)
 		values << item->data(DataRole);
 	}
 
-	qDebug() << m_query->exec("BEGIN TRANSACTION;");
+	m_query->exec("BEGIN TRANSACTION;");
 
 	m_query->prepare("INSERT INTO header VALUES(?, ?, ?);");
 	m_query->bindValue(0, rids);
 	m_query->bindValue(1, keys);
 	m_query->bindValue(2, values);
 
-	qDebug() << m_query->execBatch();
-	qDebug() << m_query->exec("COMMIT;");
+	m_query->execBatch();
+	m_query->exec("COMMIT;");
 }
 
 void RequestSaver::savePostTable(int rid)
@@ -235,22 +242,22 @@ void RequestSaver::savePostTable(int rid)
 		values << item->data(DataRole);
 	}
 
-	qDebug() << m_query->exec("BEGIN TRANSACTION;");
+	m_query->exec("BEGIN TRANSACTION;");
 
 	m_query->prepare("INSERT INTO post VALUES(?, ?, ?);");
 	m_query->bindValue(0, rids);
 	m_query->bindValue(1, keys);
 	m_query->bindValue(2, values);
 
-	qDebug() << m_query->execBatch();
-	qDebug() << m_query->exec("COMMIT;");
+	m_query->execBatch();
+	m_query->exec("COMMIT;");
 }
 
 void RequestSaver::loadRequestTable(int rid)
 {
 	m_query->prepare("SELECT * FROM request WHERE rowid=?;");
 	m_query->bindValue(0, rid);
-	qDebug() << m_query->exec();
+	m_query->exec();
 
 	if (!m_query->first())
 	{
@@ -269,7 +276,7 @@ void RequestSaver::loadGeneralTable(int gid)
 {
 	m_query->prepare("SELECT * FROM general WHERE rowid=?;");
 	m_query->bindValue(0, gid);
-	qDebug() << m_query->exec();
+	m_query->exec();
 
 	if (!m_query->first())
 	{
@@ -290,7 +297,7 @@ void RequestSaver::loadProxyTable(int pid)
 {
 	m_query->prepare("SELECT * FROM proxy WHERE rowid=?;");
 	m_query->bindValue(0, pid);
-	qDebug() << m_query->exec();
+	m_query->exec();
 
 	if (!m_query->first())
 	{
@@ -311,7 +318,7 @@ void RequestSaver::loadPostTable(int rid)
 {
 	m_query->prepare("SELECT * FROM post WHERE rid=? ORDER BY rowid ASC;");
 	m_query->bindValue(0, rid);
-	qDebug() << m_query->exec();
+	m_query->exec();
 
 	auto *model = Holder->postModel();
 	model->clear();
@@ -332,12 +339,10 @@ void RequestSaver::loadHeaderTable(int rid)
 {
 	m_query->prepare("SELECT * FROM header WHERE rid=? ORDER BY rowid ASC;");
 	m_query->bindValue(0, rid);
-	qDebug() << m_query->exec();
+	m_query->exec();
 
 	auto *model = Holder->headerModel();
 	model->clear();
-
-	qDebug() << "Hi";
 
 	while (m_query->next())
 	{
@@ -357,7 +362,7 @@ void RequestSaver::fillModel()
 {
 	m_model->clear();
 
-	qDebug() << m_query->exec(
+	m_query->exec(
 		"SELECT rowid,name,time FROM main ORDER BY rowid DESC Limit 100;");
 
 	while (m_query->next())

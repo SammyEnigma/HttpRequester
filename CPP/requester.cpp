@@ -69,9 +69,8 @@ void Requester::start()
 	}
 	else if (m_input.requestType == PutRequest)
 	{
-		m_input.putData = "name: 'new product name'";
+		m_input.putData = m_input.putData;
 		m_downloader.put(R, m_input.putData);
-		qDebug() << "Putting " << m_input.putData;
 	}
 
 	setState(LoadingState);

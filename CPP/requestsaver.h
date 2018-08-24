@@ -5,6 +5,7 @@
 
 #include <QDateTime>
 #include <QDebug>
+#include <QDir>
 #include <QFile>
 #include <QObject>
 #include <QStandardPaths>
@@ -26,8 +27,10 @@ class RequestSaver : public QObject
 
 	QmlModel *m_model;
 	QSqlQuery *m_query;
-	QString m_databasePath;
 	QSqlDatabase m_database;
+
+	QString m_tempDir;
+	QString m_databasePath;
 
 	void createTables();
 	void createDatabase();
@@ -45,6 +48,7 @@ class RequestSaver : public QObject
 	void loadHeaderTable(int rid);
 
 	void fillModel();
+	QString tempFilePath();
 
 public:
 	static RequestHolder *Holder;
@@ -55,7 +59,6 @@ public:
 	QmlModel *model() const;
 
 public slots:
-	QString tempFilePath();
 	void saveToFile(const QString &content);
 
 	void saveRequest();
