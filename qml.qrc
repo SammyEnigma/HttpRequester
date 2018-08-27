@@ -33,5 +33,6 @@
         <file>QML/Result/ResultStatusView.qml</file>
         <file>QML/Result/ResultWebPage.qml</file>
         <file>QML/Tools/ContentFlickerView.qml</file>
+        <file>Images/icon.png</file>
     </qresource>
 </RCC>
