@@ -24,6 +24,6 @@ This project is published under GPL v3.0 license. See the [license file](LICENSE
 If there are any issues or bugs you can report them on the [issues page](../../issues) and star the project if you like it.
 
 # Screenshots
-You can see some screenshots here. If you want to see more screenshots you can see them [here](README_screenshot.md).
+You can see some screenshots here. If you want to see more screenshots you can see them [here](README_screenshots.md).
 
 ![screenshot1](Screenshots/screenshot1.png)
