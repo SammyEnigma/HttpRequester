@@ -1,7 +1,7 @@
 # HttpRequester
 ![Icon](Images/icon.png)
 
-A graphical tool to that sends http requests and display their responses. This software has the ability to send GET, POST, HEAD, PUT and DELETE requests and read their responses and display the content and the 
+A graphical tool that sends http requests and display their responses. This software has the ability to send GET, POST, HEAD, PUT and DELETE requests and read their responses and display the content and the 
 
 # Running the Project
 You can download and run the [latest release](../../releases) on your linux system by extracting the compressed file and running the shell script. Or if you want to compile the project from source you can see the Building from Source section.
