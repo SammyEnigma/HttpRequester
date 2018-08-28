@@ -32,6 +32,3 @@ Makefile*
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
-
-# Mine
-main.cpp
